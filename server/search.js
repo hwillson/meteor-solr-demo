@@ -9,6 +9,7 @@ SearchSource.defineSource('powerSearch', (keywords, options) => {
   Meteor._sleepForMs(500);
   let docs = [];
   const metadata = {
+    keywords,
     totalResults: 0
   };
 
@@ -16,8 +17,8 @@ SearchSource.defineSource('powerSearch', (keywords, options) => {
     const query = solrClient.createQuery().q(keywords);
 
     let start = 0;
-    if (options && options.page) {
-      start = (options.page - 1) * 10;
+    if (options && options.currentPage) {
+      start = (options.currentPage - 1) * 10;
     }
     query.start(start);
 

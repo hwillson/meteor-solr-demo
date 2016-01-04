@@ -1,41 +1,33 @@
 Pagination = React.createClass({
 
   propTypes: {
-    searchMetadata: React.PropTypes.object.isRequired
+    searchMetadata: React.PropTypes.object.isRequired,
+    currentPage: React.PropTypes.number
   },
 
-  // showPages() {
-  //   const resultsPerPage = 10;
-  //   const totalResults =
-  //     (this.props.searchMetadata.totalResults
-  //       ? this.props.searchMetadata.totalResults : 0);
-  //   let pages = [];
-  //   if (totalResults <= resultsPerPage) {
-  //     pages = [1];
-  //   } else {
-  //     for (let i = 1; i <= Math.floor(totalResults / resultsPerPage); i++) {
-  //       pages.push(i);
-  //     }
-  //     if (totalResults % resultsPerPage) {
-  //       pages.push(pages[pages.length - 1] + 1);
-  //     }
-  //   }
-  //   return pages.map((page) => {
-  //     return <PaginationPage key={page} page={page} />;
-  //   });
-  // },
+  mixins: [ReactMeteorData],
 
-  getInitialState() {
+  getDefaultProps() {
     return {
-      current: 1
+      currentPage: 1
     };
   },
 
+  componentWillMount() {
+    this.setState({ current: this.props.currentPage });
+  },
+
   onChange(page) {
-    PowerSearch.search('*', { page });
     this.setState({
       current: page
     });
+    Session.set('currentPage', page);
+  },
+
+  getMeteorData() {
+    return {
+      currentPage: Session.get('currentPage')
+    };
   },
 
   totalResults() {

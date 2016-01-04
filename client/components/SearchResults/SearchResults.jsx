@@ -1,7 +1,22 @@
 SearchResults = React.createClass({
 
   propTypes: {
-    searchResults: React.PropTypes.array.isRequired
+    searchResults: React.PropTypes.array.isRequired,
+    resultsPerPage: React.PropTypes.number,
+    currentPage: React.PropTypes.number
+  },
+
+  getDefaultProps() {
+    return {
+      resultsPerPage: 10,
+      currentPage: 1
+    };
+  },
+
+  resultsStartCount() {
+    return ResultCount.calculateStartCount(
+      this.props.currentPage, this.props.resultsPerPage
+    );
   },
 
   renderSearchResults() {
@@ -13,9 +28,9 @@ SearchResults = React.createClass({
   render() {
     return (
       <div className="search-results">
-        <ul>
+        <ol start={this.resultsStartCount()}>
           {this.renderSearchResults()}
-        </ul>
+        </ol>
       </div>
     );
   }

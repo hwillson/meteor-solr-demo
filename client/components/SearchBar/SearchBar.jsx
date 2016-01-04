@@ -1,8 +1,16 @@
 SearchBar = React.createClass({
 
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
+    return {
+      keywords: Session.get('keywords')
+    };
+  },
+
   performSearch(event) {
     const search = _.throttle(() => {
-      PowerSearch.search(event.target.value);
+      Session.set('keywords', event.target.value);
     }, 200);
     search();
   },

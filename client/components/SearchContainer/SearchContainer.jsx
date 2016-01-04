@@ -2,7 +2,22 @@ SearchContainer = React.createClass({
 
   mixins: [ReactMeteorData],
 
+  getInitialState() {
+    return {
+      resultsPerPage: 10
+    };
+  },
+
   getMeteorData() {
+    const keywords = Session.get('keywords');
+    let currentPage = Session.get('currentPage');
+    if (!currentPage) {
+      currentPage = 1;
+    }
+    if (keywords && currentPage) {
+      PowerSearch.search(keywords, { currentPage });
+    }
+
     const searchResults = PowerSearch.getData({
       transform(matchText, regExp) {
         return matchText.replace(regExp, '<strong>$&</strong>');
@@ -10,27 +25,45 @@ SearchContainer = React.createClass({
     });
     const searchMetadata = PowerSearch.getMetadata();
     return {
+      keywords,
       searchResults,
-      searchMetadata
+      searchMetadata,
+      currentPage
     };
   },
 
   render() {
     let mainContent;
-    if (this.data.searchResults.length) {
-      mainContent = (
-        <main>
-          <ResultsCount searchMetadata={this.data.searchMetadata} />
-          <SearchResults searchResults={this.data.searchResults} />
-          <Pagination searchMetadata={this.data.searchMetadata} />
-        </main>
-      );
-    } else {
+    if (!this.data.keywords) {
       mainContent = (
         <main>
           <WelcomeContent />
         </main>
       );
+    } else {
+      if (this.data.searchResults.length) {
+        mainContent = (
+          <main>
+            <ResultsCount searchMetadata={this.data.searchMetadata}
+              resultsPerPage={this.state.resultsPerPage}
+              currentPage={this.data.currentPage}
+            />
+            <SearchResults searchResults={this.data.searchResults}
+              resultsPerPage={this.state.resultsPerPage}
+              currentPage={this.data.currentPage}
+            />
+            <Pagination searchMetadata={this.data.searchMetadata}
+              currentPage={this.data.currentPage}
+            />
+          </main>
+        );
+      } else {
+        mainContent = (
+          <main>
+            Loading ...
+          </main>
+        );
+      }
     }
 
     return (
