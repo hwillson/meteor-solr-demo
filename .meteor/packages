@@ -22,6 +22,13 @@ mquandalle:stylus
 meteorhacks:npm
 
 
-npm-container
 react
 kadira:react-layout
+
+
+npm-container
+meteorhacks:search-source
+check
+pfafman:font-awesome-4
+cosmos:browserify
+momentjs:moment

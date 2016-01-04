@@ -1,2 +1,5 @@
 {
+  "solr-client": "0.6.0",
+  "rc-pagination": "1.3.5",
+  "externalify": "0.1.0"
 }

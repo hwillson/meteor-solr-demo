@@ -1,6 +1,6 @@
 FlowRouter.route('/', {
   name: 'search',
   action() {
-    ReactLayout.render(MainLayout, { content: <Search /> });
+    ReactLayout.render(Search);
   }
 });

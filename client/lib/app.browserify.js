@@ -1,0 +1,1 @@
+RcPagination = require('rc-pagination');
