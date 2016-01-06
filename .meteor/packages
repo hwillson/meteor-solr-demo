@@ -32,3 +32,4 @@ check
 pfafman:font-awesome-4
 cosmos:browserify
 momentjs:moment
+ejson

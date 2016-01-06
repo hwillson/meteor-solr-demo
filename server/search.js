@@ -2,8 +2,27 @@ const sorlSearch = Meteor.npmRequire('solr-client');
 const solrClient = sorlSearch.createClient({
   host: 'localhost',
   port: 8983,
-  core: 'techproducts'
+  core: 'testcore'
 });
+
+const buildSearchQuery = (keywords, options) => {
+  // Add keywords
+  let query = solrClient.createQuery().q(keywords);
+
+  // Set pagination
+  let start = 0;
+  if (options && options.currentPage) {
+    start = (options.currentPage - 1) * 10;
+  }
+  query.start(start);
+
+  // Add facets
+  _.keys(SearchConfig.facetFields).forEach((field) => {
+    query = query.facet({ field });
+  });
+
+  return query;
+};
 
 SearchSource.defineSource('powerSearch', (keywords, options) => {
   Meteor._sleepForMs(500);
@@ -14,21 +33,13 @@ SearchSource.defineSource('powerSearch', (keywords, options) => {
   };
 
   if (keywords) {
-    const query = solrClient.createQuery().q(keywords);
-
-    let start = 0;
-    if (options && options.currentPage) {
-      start = (options.currentPage - 1) * 10;
-    }
-    query.start(start);
-
+    const query = buildSearchQuery(keywords, options);
     const doSearch = Meteor.wrapAsync(solrClient.search, solrClient);
-    const searchResponse = doSearch(query);
-    docs = searchResponse.response.docs;
-    docs.forEach(doc => {
-      doc._id = doc.id;
-    });
-    metadata.totalResults = searchResponse.response.numFound;
+    const solrSearchResponse = Object.create(SearchResponse);
+    solrSearchResponse.init(doSearch(query));
+    docs = solrSearchResponse.docs;
+    metadata.totalResults = solrSearchResponse.totalResults();
+    metadata.facets = solrSearchResponse.facets;
   }
   return {
     data: docs,

@@ -4,13 +4,15 @@ SearchBar = React.createClass({
 
   getMeteorData() {
     return {
-      keywords: Session.get('keywords')
+      searchParams: Session.get('searchParams')
     };
   },
 
   performSearch(event) {
     const search = _.throttle(() => {
-      Session.set('keywords', event.target.value);
+      const searchParams = Session.get('searchParams');
+      searchParams.keywords = event.target.value;
+      Session.set('searchParams', searchParams);
     }, 200);
     search();
   },
@@ -23,7 +25,7 @@ SearchBar = React.createClass({
         >
           <div className="input-group">
             <input ref="keywords" className="form-control"
-              placeholder="Search ARF content" autoFocus
+              placeholder="Search keywords" autoFocus
               onChange={this.performSearch}
             />
             <span className="input-group-addon">

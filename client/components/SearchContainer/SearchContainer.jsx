@@ -9,13 +9,24 @@ SearchContainer = React.createClass({
   },
 
   getMeteorData() {
-    const keywords = Session.get('keywords');
+    let searchParams = Session.get('searchParams');
+    if (!searchParams) {
+      searchParams = {
+        keywords: '',
+        fields: {}
+      };
+      Session.set('searchParams', searchParams);
+    }
+
     let currentPage = Session.get('currentPage');
     if (!currentPage) {
       currentPage = 1;
     }
-    if (keywords && currentPage) {
-      PowerSearch.search(keywords, { currentPage });
+    if (searchParams.keywords && currentPage) {
+      PowerSearch.search(
+        SearchQuery.buildQueryString(searchParams),
+        { currentPage }
+      );
     }
 
     const searchResults = PowerSearch.getData({
@@ -25,14 +36,14 @@ SearchContainer = React.createClass({
     });
     const searchMetadata = PowerSearch.getMetadata();
     return {
-      keywords,
+      keywords: searchParams.keywords,
       searchResults,
       searchMetadata,
       currentPage
     };
   },
 
-  render() {
+  renderMain() {
     let mainContent;
     if (!this.data.keywords) {
       mainContent = (
@@ -41,31 +52,69 @@ SearchContainer = React.createClass({
         </main>
       );
     } else {
-      if (this.data.searchResults.length) {
-        mainContent = (
-          <main>
-            <ResultsCount searchMetadata={this.data.searchMetadata}
-              resultsPerPage={this.state.resultsPerPage}
-              currentPage={this.data.currentPage}
-            />
-            <SearchResults searchResults={this.data.searchResults}
-              resultsPerPage={this.state.resultsPerPage}
-              currentPage={this.data.currentPage}
-            />
-            <Pagination searchMetadata={this.data.searchMetadata}
-              currentPage={this.data.currentPage}
-            />
-          </main>
-        );
-      } else {
+      if (PowerSearch.getStatus().loaded) {
+        if (this.data.searchResults.length) {
+          mainContent = (
+            <main>
+              <ResultsCount searchMetadata={this.data.searchMetadata}
+                resultsPerPage={this.state.resultsPerPage}
+                currentPage={this.data.currentPage}
+              />
+              <SearchResults searchResults={this.data.searchResults}
+                resultsPerPage={this.state.resultsPerPage}
+                currentPage={this.data.currentPage}
+              />
+              <Pagination searchMetadata={this.data.searchMetadata}
+                currentPage={this.data.currentPage}
+              />
+            </main>
+          );
+        } else {
+          mainContent = (<main>No results found.</main>);
+        }
+      } else if (PowerSearch.getStatus().loading) {
         mainContent = (
           <main>
             Loading ...
           </main>
         );
+      } else {
+        mainContent = (
+          <main>
+            Oh no! Looks like we're having problems completing your search!
+          </main>
+        );
       }
     }
+    return mainContent;
+  },
 
+  renderSidebar() {
+    let sidebarContent;
+    if (!this.data.keywords) {
+      sidebarContent = (
+        <aside>
+          TODO ...
+        </aside>
+      );
+    } else {
+      sidebarContent = (
+        <aside>
+          <h2>Refine Your Search</h2>
+          {this.renderFacets()}
+        </aside>
+      );
+    }
+    return sidebarContent;
+  },
+
+  renderFacets() {
+    if (this.data.searchMetadata.facets) {
+      return <SearchFacets facets={this.data.searchMetadata.facets} />;
+    }
+  },
+
+  render() {
     return (
       <div className="search-container">
         <header>
@@ -86,12 +135,10 @@ SearchContainer = React.createClass({
           <div className="container">
             <div className="row">
               <div className="col-md-8">
-                {mainContent}
+                {this.renderMain()}
               </div>
               <div className="col-md-4">
-                <aside>
-                  todo
-                </aside>
+                {this.renderSidebar()}
               </div>
             </div>
           </div>
