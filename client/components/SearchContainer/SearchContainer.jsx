@@ -24,9 +24,16 @@ SearchContainer = React.createClass({
     }
     if (searchParams.keywords && currentPage) {
       PowerSearch.search(
-        SearchQuery.buildQueryString(searchParams),
-        { currentPage }
+        searchParams.keywords,
+        {
+          currentPage,
+          fields: searchParams.fields
+        }
       );
+      // PowerSearch.search(
+      //   SearchQuery.buildQueryString(searchParams),
+      //   { currentPage }
+      // );
     }
 
     const searchResults = PowerSearch.getData({

@@ -33,9 +33,9 @@ SearchFacet = React.createClass({
 
   unrefineFacet() {
     event.preventDefault();
-    this.setState({
-      selectedFacet: null
-    });
+    this.setState({ selectedFacet: null });
+    delete this.data.searchParams.fields[this.props.name];
+    Session.set('searchParams', this.data.searchParams);
   },
 
   renderFacetLink(name) {
@@ -58,12 +58,15 @@ SearchFacet = React.createClass({
   renderFacetValues() {
     const facetValues = [];
     this.props.values.forEach((value) => {
-      facetValues.push(
-        <li key={value.name}>
-          {this.renderFacetLink(value.name)}
-          &nbsp;({value.count})
-        </li>
-      );
+      if (!this.state.selectedFacet
+          || (this.state.selectedFacet === value.name)) {
+        facetValues.push(
+          <li key={value.name}>
+            {this.renderFacetLink(value.name)}
+            &nbsp;({value.count})
+          </li>
+        );
+      }
     });
     return facetValues;
   },
