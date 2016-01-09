@@ -105,20 +105,26 @@ SearchContainer = React.createClass({
         </aside>
       );
     } else {
-      sidebarContent = (
-        <aside>
-          <h2>Refine Your Search</h2>
-          {this.renderFacets()}
-        </aside>
-      );
+      let sourceCategories = [];
+      if (this.data.searchMetadata.facets) {
+        sourceCategories = this.data.searchMetadata.facets.source;
+        sidebarContent = (
+          <aside>
+            <h2>Refine Your Search</h2>
+            <NestedCategoriesWidget name="Categories"
+              categories={sourceCategories}
+            />
+            <SearchFacet key="document_type" name="document_type"
+              values={this.data.searchMetadata.facets.document_type}
+            />
+            <SearchFacet key="author" name="author"
+              values={this.data.searchMetadata.facets.author}
+            />
+          </aside>
+        );
+      }
     }
     return sidebarContent;
-  },
-
-  renderFacets() {
-    if (this.data.searchMetadata.facets) {
-      return <SearchFacets facets={this.data.searchMetadata.facets} />;
-    }
   },
 
   render() {

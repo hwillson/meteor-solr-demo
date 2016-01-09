@@ -73,11 +73,15 @@ SearchFacet = React.createClass({
 
   render() {
     return (
-      <div className="search-facet">
-        <h3>{this.facetName()}</h3>
-        <ul>
-          {this.renderFacetValues()}
-        </ul>
+      <div className="search-facet panel panel-default">
+        <div className="panel-heading">
+          <strong>{this.facetName()}</strong>
+        </div>
+        <div className="panel-body">
+          <ul>
+            {this.renderFacetValues()}
+          </ul>
+        </div>
       </div>
     );
   }

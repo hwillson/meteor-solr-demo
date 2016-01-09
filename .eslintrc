@@ -3,7 +3,7 @@
   "rules": {
     "no-undef": 0,
     "comma-dangle": [2, "never"],
-    "padded-blocks": [2, "never"],
+    "padded-blocks": 0,
     "react/react-in-jsx-scope": 0,
     "react/jsx-no-undef": 0
   },

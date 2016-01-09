@@ -17,6 +17,15 @@ SearchBar = React.createClass({
     search();
   },
 
+  resetSearch(event) {
+    event.preventDefault();
+    Session.set('searchParams', {
+      keywords: '',
+      fields: {}
+    });
+    this.refs.keywords.focus();
+  },
+
   render() {
     return (
       <div className="search-bar clearfix">
@@ -26,6 +35,7 @@ SearchBar = React.createClass({
           <div className="input-group">
             <input ref="keywords" className="form-control"
               placeholder="Search keywords" autoFocus
+              value={this.data.searchParams.keywords}
               onChange={this.performSearch}
             />
             <span className="input-group-addon">
@@ -33,6 +43,9 @@ SearchBar = React.createClass({
             </span>
           </div>
         </form>
+        <div className="search-reset">
+          <a href="#" onClick={this.resetSearch}>Reset search?</a>
+        </div>
       </div>
     );
   }

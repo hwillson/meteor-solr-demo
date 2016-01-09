@@ -1,0 +1,22 @@
+.category-tree
+  margin 0
+  padding 0
+  ul
+    margin 0
+    padding 0 0 0 14px
+  li
+    list-style-type none
+  a
+    cursor pointer
+  li:before
+    margin-right 5px
+  .has-children:before
+    font-family FontAwesome
+    content "\f0fe"
+    cursor pointer
+  .has-children.open:before
+    font-family FontAwesome
+    content "\f146"
+    cursor pointer
+  li.no-children
+    margin-left 10px
