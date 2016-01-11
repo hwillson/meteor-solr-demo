@@ -2,14 +2,16 @@ Pagination = React.createClass({
 
   propTypes: {
     searchMetadata: React.PropTypes.object.isRequired,
-    currentPage: React.PropTypes.number
+    currentPage: React.PropTypes.number,
+    resultsPerPage: React.PropTypes.number
   },
 
   mixins: [ReactMeteorData],
 
   getDefaultProps() {
     return {
-      currentPage: 1
+      currentPage: 1,
+      resultsPerPage: 10
     };
   },
 
@@ -21,12 +23,13 @@ Pagination = React.createClass({
     this.setState({
       current: page
     });
-    Session.set('currentPage', page);
+    this.data.searchParams.currentPage = page;
+    Session.set('searchParams', this.data.searchParams);
   },
 
   getMeteorData() {
     return {
-      currentPage: Session.get('currentPage')
+      searchParams: Session.get('searchParams')
     };
   },
 
@@ -39,7 +42,7 @@ Pagination = React.createClass({
     return (
       <div className="search-pagination">
         <RcPagination current={this.state.current} onChange={this.onChange}
-          total={this.totalResults()}
+          total={this.totalResults()} pageSize={this.props.resultsPerPage}
         />
       </div>
     );

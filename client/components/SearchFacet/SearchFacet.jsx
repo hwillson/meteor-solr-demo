@@ -24,15 +24,18 @@ SearchFacet = React.createClass({
     event.preventDefault();
     const selectedFacet = event.target.innerHTML;
     this.setState({ selectedFacet });
-    this.data.searchParams.fields[this.props.field] = selectedFacet;
-    Session.set('searchParams', this.data.searchParams);
+    const searchParams = Session.get('searchParams');
+    searchParams.fields[this.props.field] = selectedFacet;
+    searchParams.currentPage = 1;
+    Session.set('searchParams', searchParams);
   },
 
   unrefineFacet() {
     event.preventDefault();
     this.setState({ selectedFacet: null });
-    delete this.data.searchParams.fields[this.props.field];
-    Session.set('searchParams', this.data.searchParams);
+    const searchParams = Session.get('searchParams');
+    delete searchParams.fields[this.props.field];
+    Session.set('searchParams', searchParams);
   },
 
   renderFacetLink(name) {

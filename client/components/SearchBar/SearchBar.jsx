@@ -2,6 +2,20 @@ SearchBar = React.createClass({
 
   mixins: [ReactMeteorData],
 
+  getInitialState() {
+    return {
+      keywords: ''
+    };
+  },
+
+  componentWillMount() {
+    this.setSearchKeywords = _.debounce((keywords) => {
+      const searchParams = Session.get('searchParams');
+      searchParams.keywords = keywords;
+      Session.set('searchParams', searchParams);
+    }, 500);
+  },
+
   getMeteorData() {
     return {
       searchParams: Session.get('searchParams')
@@ -9,21 +23,16 @@ SearchBar = React.createClass({
   },
 
   performSearch(event) {
-    const search = _.throttle(() => {
-      const searchParams = Session.get('searchParams');
-      searchParams.keywords = event.target.value;
-      Session.set('searchParams', searchParams);
-    }, 200);
-    search();
+    const keywords = event.target.value;
+    this.setSearchKeywords(keywords);
+    this.setState({ keywords });
   },
 
   resetSearch(event) {
     event.preventDefault();
-    Session.set('searchParams', {
-      keywords: '',
-      fields: {}
-    });
+    Session.set('searchParams', null);
     this.refs.keywords.focus();
+    this.setState({ keywords: '' });
   },
 
   render() {
@@ -35,8 +44,8 @@ SearchBar = React.createClass({
           <div className="input-group">
             <input ref="keywords" className="form-control"
               placeholder="Search keywords" autoFocus
-              value={this.data.searchParams.keywords}
               onChange={this.performSearch}
+              value={this.state.keywords}
             />
             <span className="input-group-addon">
               <i className="fa fa-search" />

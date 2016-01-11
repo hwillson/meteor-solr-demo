@@ -14,21 +14,19 @@ SearchContainer = React.createClass({
     if (!searchParams) {
       searchParams = {
         keywords: '',
-        fields: {}
+        fields: {},
+        currentPage: 1
       };
       Session.set('searchParams', searchParams);
     }
 
-    let currentPage = Session.get('currentPage');
-    if (!currentPage) {
-      currentPage = 1;
-    }
-    if (searchParams.keywords && currentPage) {
+    if (searchParams.keywords) {
       PowerSearch.search(
         searchParams.keywords,
         {
-          currentPage,
-          fields: searchParams.fields
+          currentPage: searchParams.currentPage,
+          fields: searchParams.fields,
+          resultsPerPage: this.state.resultsPerPage
         }
       );
     }
@@ -43,7 +41,7 @@ SearchContainer = React.createClass({
       keywords: searchParams.keywords,
       searchResults,
       searchMetadata,
-      currentPage
+      currentPage: searchParams.currentPage
     };
 
   },
@@ -71,6 +69,7 @@ SearchContainer = React.createClass({
               />
               <Pagination searchMetadata={this.data.searchMetadata}
                 currentPage={this.data.currentPage}
+                resultsPerPage={this.state.resultsPerPage}
               />
             </main>
           );

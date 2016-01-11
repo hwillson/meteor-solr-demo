@@ -30,8 +30,10 @@ NestedCategoriesWidget = React.createClass({
         // nestedCategories: { children: [] },
         selectedCategoryPath
       });
-      this.data.searchParams.fields[this.props.field] = selectedCategoryPath;
-      Session.set('searchParams', this.data.searchParams);
+      const searchParams = Session.get('searchParams');
+      searchParams.fields[this.props.field] = selectedCategoryPath;
+      searchParams.currentPage = 1;
+      Session.set('searchParams', searchParams);
     }
   },
 
