@@ -52,20 +52,26 @@ SearchFacet = React.createClass({
     return facetLink;
   },
 
-  renderFacetValues() {
-    const facetValues = [];
-    this.props.values.forEach((value) => {
-      if (!this.state.selectedFacet
-          || (this.state.selectedFacet === value.name)) {
-        facetValues.push(
-          <li key={value.name}>
-            {this.renderFacetLink(value.name)}
-            &nbsp;({value.count})
-          </li>
-        );
-      }
-    });
-    return facetValues;
+  renderFacetContent() {
+    let facetContent;
+    if (this.props.values && (this.props.values.length > 0)) {
+      const facetValues = [];
+      this.props.values.forEach((value) => {
+        if (!this.state.selectedFacet
+            || (this.state.selectedFacet === value.name)) {
+          facetValues.push(
+            <li key={value.name}>
+              {this.renderFacetLink(value.name)}
+              &nbsp;({value.count})
+            </li>
+          );
+        }
+      });
+      facetContent = (<ul>{facetValues}</ul>);
+    } else {
+      facetContent = (<span>No results found.</span>);
+    }
+    return facetContent;
   },
 
   renderResetLink() {
@@ -94,9 +100,7 @@ SearchFacet = React.createClass({
           </div>
         </div>
         <div className="panel-body">
-          <ul>
-            {this.renderFacetValues()}
-          </ul>
+          {this.renderFacetContent()}
         </div>
       </div>
     );

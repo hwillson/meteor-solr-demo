@@ -28,7 +28,11 @@ NestedCategories = React.createClass({
   onChildDisplayToggle(event) {
     event.preventDefault();
     event.stopPropagation();
-    this.toggleChildren();
+    if (this.props.categories.children) {
+      this.toggleChildren();
+    } else {
+      this.props.onCategorySelect(this.props.categories.path);
+    }
   },
 
   toggleChildren() {

@@ -108,6 +108,7 @@ SearchContainer = React.createClass({
             <h2>Refine Your Search</h2>
             <NestedCategoriesWidget field="source" name="Categories"
               categories={this.data.searchMetadata.nestedCategories.source}
+              showHelp
             />
             <SearchFacet key="doctype" name="Document Type"
               field="doctype"
