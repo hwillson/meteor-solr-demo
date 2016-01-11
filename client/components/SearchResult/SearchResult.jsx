@@ -4,6 +4,12 @@ SearchResult = React.createClass({
     result: React.PropTypes.object
   },
 
+  renderContent() {
+    return {
+      __html: this.props.result.content
+    };
+  },
+
   render() {
     return (
       <li className="search-result">
@@ -11,7 +17,7 @@ SearchResult = React.createClass({
           <a href="#">{this.props.result.title}</a>
         </div>
         <div className="search-result-description">
-          {this.props.result.content}
+          <span dangerouslySetInnerHTML={this.renderContent()} />
         </div>
         <div className="search-metadata">
           Last modified: {DateFormatter.format(this.props.result.lastmodified)}
