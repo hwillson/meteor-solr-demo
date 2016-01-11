@@ -11,10 +11,10 @@ SearchResult = React.createClass({
           <a href="#">{this.props.result.title}</a>
         </div>
         <div className="search-result-description">
-          {this.props.result.description}
+          {this.props.result.content}
         </div>
         <div className="search-metadata">
-          Date created: {DateFormatter.format(this.props.result.date_created)}
+          Last modified: {DateFormatter.format(this.props.result.lastmodified)}
         </div>
       </li>
     );
