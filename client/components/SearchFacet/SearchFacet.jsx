@@ -39,10 +39,7 @@ SearchFacet = React.createClass({
     let facetLink;
     if (this.state.selectedFacet) {
       facetLink = (
-        <span>
-          [<a href="#" onClick={this.unrefineFacet}>reset</a>]
-          Showing: <strong>{name}</strong>
-        </span>
+        <span className="selected">{name}</span>
       );
     } else {
       facetLink = (
@@ -68,11 +65,30 @@ SearchFacet = React.createClass({
     return facetValues;
   },
 
+  renderResetLink() {
+    if (this.state.selectedFacet) {
+      return (
+        <div className="reset">
+          <button className="btn btn-xs btn-danger"
+            onClick={this.unrefineFacet}
+          >
+            <i className="fa fa-times-circle"></i> RESET
+          </button>
+        </div>
+      );
+    }
+  },
+
   render() {
     return (
       <div className="search-facet panel panel-default">
-        <div className="panel-heading">
-          <strong>{this.props.name}</strong>
+        <div className="panel-heading clearfix">
+          <div className="pull-left">
+            <strong>{this.props.name}</strong>
+          </div>
+          <div className="pull-right">
+            {this.renderResetLink()}
+          </div>
         </div>
         <div className="panel-body">
           <ul>

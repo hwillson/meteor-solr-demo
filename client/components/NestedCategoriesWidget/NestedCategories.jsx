@@ -8,8 +8,7 @@ NestedCategories = React.createClass({
 
   getInitialState() {
     return {
-      children: [],
-      isSelectedCategory: false
+      children: []
     };
   },
 
@@ -48,24 +47,21 @@ NestedCategories = React.createClass({
         && (incomingCategory.indexOf(this.props.categories.path) === 0)) {
       doesCategoryMatch = true;
     }
-    // if (incomingCategory === this.props.categories.path) {
-    //   this.setState({ isSelectedCategory: true });
-    // }
     return doesCategoryMatch;
   },
 
   handleCategorySelect(event) {
     event.preventDefault();
     event.stopPropagation();
-    // this.setState({ isSelectedCategory: true });
     this.props.onCategorySelect(this.props.categories.path);
   },
 
   renderCategoryLink() {
     let categoryLink;
     if (this.props.selectedCategoryPath === this.props.categories.path) {
-    // if (this.state.isSelectedCategory) {
-      categoryLink = this.props.categories.name;
+      categoryLink = (
+        <span className="selected">{this.props.categories.name}</span>
+      );
     } else {
       categoryLink = (
         <a href="#" onClick={this.handleCategorySelect}>
@@ -85,8 +81,7 @@ NestedCategories = React.createClass({
       'has-children': (this.props.categories.children ? true : false),
       'no-children': (this.props.categories.children ? false : true),
       'open': (this.state.children.length ? true : false),
-      'closed': (this.state.children ? false : true),
-      'selected': (this.state.selected ? true : false)
+      'closed': (this.state.children ? false : true)
     });
 
     return (
