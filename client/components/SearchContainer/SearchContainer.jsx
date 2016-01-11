@@ -31,10 +31,6 @@ SearchContainer = React.createClass({
           fields: searchParams.fields
         }
       );
-      // PowerSearch.search(
-      //   SearchQuery.buildQueryString(searchParams),
-      //   { currentPage }
-      // );
     }
 
     const searchResults = PowerSearch.getData({
