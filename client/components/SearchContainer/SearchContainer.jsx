@@ -9,6 +9,7 @@ SearchContainer = React.createClass({
   },
 
   getMeteorData() {
+
     let searchParams = Session.get('searchParams');
     if (!searchParams) {
       searchParams = {
@@ -48,6 +49,7 @@ SearchContainer = React.createClass({
       searchMetadata,
       currentPage
     };
+
   },
 
   renderMain() {
@@ -105,19 +107,18 @@ SearchContainer = React.createClass({
         </aside>
       );
     } else {
-      let sourceCategories = [];
       if (this.data.searchMetadata.facets) {
-        sourceCategories = this.data.searchMetadata.facets.source;
         sidebarContent = (
           <aside>
             <h2>Refine Your Search</h2>
-            <NestedCategoriesWidget name="Categories"
-              categories={sourceCategories}
+            <NestedCategoriesWidget field="source" name="Categories"
+              categories={this.data.searchMetadata.nestedCategories.source}
             />
-            <SearchFacet key="document_type" name="document_type"
+            <SearchFacet key="document_type" name="Document Type"
+              field="document_type"
               values={this.data.searchMetadata.facets.document_type}
             />
-            <SearchFacet key="author" name="author"
+            <SearchFacet key="author" name="Author" field="author"
               values={this.data.searchMetadata.facets.author}
             />
           </aside>

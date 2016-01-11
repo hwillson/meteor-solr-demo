@@ -6,6 +6,7 @@ const solrClient = sorlSearch.createClient({
 });
 
 SearchSource.defineSource('powerSearch', (keywords, options) => {
+
   Meteor._sleepForMs(500);
   let docs = [];
   const metadata = {
@@ -22,9 +23,12 @@ SearchSource.defineSource('powerSearch', (keywords, options) => {
     docs = solrSearchResponse.docs;
     metadata.totalResults = solrSearchResponse.totalResults();
     metadata.facets = solrSearchResponse.facets;
+    metadata.nestedCategories = solrSearchResponse.nestedCategories;
   }
+
   return {
     data: docs,
     metadata
   };
+
 });

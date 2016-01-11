@@ -2,6 +2,7 @@ SearchFacet = React.createClass({
 
   propTypes: {
     name: React.PropTypes.string.isRequired,
+    field: React.PropTypes.string.isRequired,
     values: React.PropTypes.array.isRequired
   },
 
@@ -19,22 +20,18 @@ SearchFacet = React.createClass({
     };
   },
 
-  facetName() {
-    return SearchConfig.facetFields[this.props.name];
-  },
-
   refineByFacet(event) {
     event.preventDefault();
     const selectedFacet = event.target.innerHTML;
     this.setState({ selectedFacet });
-    this.data.searchParams.fields[this.props.name] = selectedFacet;
+    this.data.searchParams.fields[this.props.field] = selectedFacet;
     Session.set('searchParams', this.data.searchParams);
   },
 
   unrefineFacet() {
     event.preventDefault();
     this.setState({ selectedFacet: null });
-    delete this.data.searchParams.fields[this.props.name];
+    delete this.data.searchParams.fields[this.props.field];
     Session.set('searchParams', this.data.searchParams);
   },
 
@@ -75,7 +72,7 @@ SearchFacet = React.createClass({
     return (
       <div className="search-facet panel panel-default">
         <div className="panel-heading">
-          <strong>{this.facetName()}</strong>
+          <strong>{this.props.name}</strong>
         </div>
         <div className="panel-body">
           <ul>
