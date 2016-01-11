@@ -1,8 +1,8 @@
 const sorlSearch = Meteor.npmRequire('solr-client');
 const solrClient = sorlSearch.createClient({
-  host: 'localhost',
-  port: 8983,
-  core: 'testcore'
+  host: SearchConfig.host,
+  port: SearchConfig.port,
+  core: SearchConfig.core
 });
 
 SearchSource.defineSource('powerSearch', (keywords, options) => {
