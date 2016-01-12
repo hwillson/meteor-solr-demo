@@ -25,6 +25,7 @@ Pagination = React.createClass({
     });
     this.data.searchParams.currentPage = page;
     Session.set('searchParams', this.data.searchParams);
+    window.scroll(0, 0);
   },
 
   getMeteorData() {

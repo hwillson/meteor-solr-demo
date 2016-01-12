@@ -28,6 +28,7 @@ SearchFacet = React.createClass({
     searchParams.fields[this.props.field] = selectedFacet;
     searchParams.currentPage = 1;
     Session.set('searchParams', searchParams);
+    window.scroll(0, 0);
   },
 
   unrefineFacet() {

@@ -44,6 +44,7 @@ NestedCategoriesWidget = React.createClass({
       searchParams.fields[this.props.field] = selectedCategoryPath;
       searchParams.currentPage = 1;
       Session.set('searchParams', searchParams);
+      window.scroll(0, 0);
     }
   },
 
