@@ -114,8 +114,8 @@ SearchContainer = React.createClass({
               field="doctype"
               values={this.data.searchMetadata.facets.doctype}
             />
-            <NestedCategoriesWidget field="date" name="Date"
-              categories={this.data.searchMetadata.nestedCategories.date}
+            <NestedCategoriesWidget field="date_ss" name="Date"
+              categories={this.data.searchMetadata.nestedCategories.date_ss}
             />
             <SearchFacet key="author" name="Author" field="author"
               values={this.data.searchMetadata.facets.author}

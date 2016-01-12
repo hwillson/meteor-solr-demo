@@ -14,7 +14,9 @@ SearchResult = React.createClass({
     return (
       <li className="search-result">
         <div className="search-result-title">
-          <a href="#">{this.props.result.title}</a>
+          <a href={this.props.result.returnUrl} target="_blank">
+            {this.props.result.title}
+          </a>
         </div>
         <div className="search-result-description">
           <span dangerouslySetInnerHTML={this.renderContent()} />
