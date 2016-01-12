@@ -22,7 +22,7 @@ SearchFacet = React.createClass({
 
   refineByFacet(event) {
     event.preventDefault();
-    const selectedFacet = event.target.innerHTML;
+    const selectedFacet = event.target.getAttribute('data-value');
     this.setState({ selectedFacet });
     const searchParams = Session.get('searchParams');
     searchParams.fields[this.props.field] = selectedFacet;
@@ -40,17 +40,31 @@ SearchFacet = React.createClass({
   },
 
   renderFacetLink(name) {
+
+    let customName;
+    if (SearchConfig.customFacetLabels[this.props.field]) {
+      customName = SearchConfig.customFacetLabels[this.props.field][name];
+      if (!customName) {
+        customName = name;
+      }
+    } else {
+      customName = name;
+    }
+
     let facetLink;
     if (this.state.selectedFacet) {
       facetLink = (
-        <span className="selected">{name}</span>
+        <span className="selected">{customName}</span>
       );
     } else {
       facetLink = (
-        <a href="#" onClick={this.refineByFacet}>{name}</a>
+        <a href="#" onClick={this.refineByFacet} data-value={name}>
+          {customName}
+        </a>
       );
     }
     return facetLink;
+
   },
 
   renderFacetContent() {

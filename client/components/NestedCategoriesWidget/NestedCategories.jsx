@@ -91,6 +91,7 @@ NestedCategories = React.createClass({
     return (
       <li ref="node" className={classes} onClick={this.onChildDisplayToggle}>
         {this.renderCategoryLink()}
+        <span className="count">({this.props.categories.count})</span>
         <ul>
           {
             this.state.children.map((child) => {

@@ -37,6 +37,7 @@ SearchContainer = React.createClass({
       }
     });
     const searchMetadata = PowerSearch.getMetadata();
+
     return {
       keywords: searchParams.keywords,
       searchResults,
