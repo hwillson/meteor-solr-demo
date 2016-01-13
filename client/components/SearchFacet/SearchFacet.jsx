@@ -40,17 +40,7 @@ SearchFacet = React.createClass({
   },
 
   renderFacetLink(name) {
-
-    let customName;
-    if (SearchConfig.customFacetLabels[this.props.field]) {
-      customName = SearchConfig.customFacetLabels[this.props.field][name];
-      if (!customName) {
-        customName = name;
-      }
-    } else {
-      customName = name;
-    }
-
+    const customName = SearchFacetUtils.getCustomValue(this.props.field, name);
     let facetLink;
     if (this.state.selectedFacet) {
       facetLink = (
@@ -64,7 +54,6 @@ SearchFacet = React.createClass({
       );
     }
     return facetLink;
-
   },
 
   renderFacetContent() {

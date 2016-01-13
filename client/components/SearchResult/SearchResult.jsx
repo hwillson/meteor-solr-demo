@@ -22,7 +22,8 @@ SearchResult = React.createClass({
           <span dangerouslySetInnerHTML={this.renderContent()} />
         </div>
         <div className="search-metadata">
-          Last modified: {DateFormatter.format(this.props.result.lastmodified)}
+          {SearchFacetUtils.getCustomValue('doctype', this.props.result.doctype)}
+          &nbsp;| {DateFormatter.format(this.props.result.lastmodified)}
         </div>
       </li>
     );
