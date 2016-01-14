@@ -33,3 +33,9 @@ pfafman:font-awesome-4
 cosmos:browserify
 momentjs:moment
 ejson
+useraccounts:flow-routing
+gwendall:blaze-to-react
+useraccounts:bootstrap
+useraccounts:core
+kadira:blaze-layout
+accounts-password
