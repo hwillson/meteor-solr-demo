@@ -99,7 +99,9 @@ SearchContainer = React.createClass({
     if (!this.data.keywords) {
       sidebarContent = (
         <aside>
-          TODO ...
+          <div className="promo">
+            <img src="/images/promo.png" alt="Search promo graphic"/>
+          </div>
         </aside>
       );
     } else {

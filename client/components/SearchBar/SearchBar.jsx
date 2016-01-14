@@ -35,11 +35,16 @@ SearchBar = React.createClass({
     this.setState({ keywords: '' });
   },
 
+  handleSubmit(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  },
+
   render() {
     return (
       <div className="search-bar clearfix">
         <form className="navbar-form navbar-left pull-right"
-          role="search"
+          role="search" onSubmit={this.handleSubmit}
         >
           <div className="input-group">
             <input ref="keywords" className="form-control"
