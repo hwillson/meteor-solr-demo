@@ -97,13 +97,7 @@ SearchContainer = React.createClass({
   renderSidebar() {
     let sidebarContent;
     if (!this.data.keywords) {
-      sidebarContent = (
-        <aside>
-          <div className="promo">
-            <img src="/images/promo.png" alt="Search promo graphic"/>
-          </div>
-        </aside>
-      );
+      sidebarContent = (<WelcomSidebar />);
     } else {
       if (this.data.searchMetadata.facets) {
         sidebarContent = (
