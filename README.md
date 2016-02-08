@@ -31,7 +31,7 @@ Here are the sample Solr config and schema files used by this demo:
 
 **Running the Search Application**
 
-1. git clone https://github.com/hwillson/meteor-solr-demo.git
+1. `git clone https://github.com/hwillson/meteor-solr-demo.git`
 2. Update `lib/models/search_config.js` with your Solr install details.
 3. Run `meteor` in the root of your project, and access the search at http://localhost:3000.
 
@@ -40,4 +40,4 @@ Here are the sample Solr config and schema files used by this demo:
 - There is a known bug in the categories facet that doesn't properly refresh the hierarchical tree properly when drilling down.
 - Wire search analytics tracking up.
 - Wire up search keyword type ahead functionality using the [Solr Suggester](https://cwiki.apache.org/confluence/display/solr/Suggester).
-- Look into leveraging the [React Container Pattern](https://voice.kadira.io/using-meteor-data-and-react-with-meteor-1-3-13cb0935dedb).
+- Look into leveraging the [React Container Pattern](https://voice.kadira.io/using-meteor-data-and-react-with-meteor-1-3-13cb0935dedb) to better separate data from the UI (is a bit of a mess right now).
