@@ -3,30 +3,19 @@ SearchContainer = React.createClass({
   mixins: [ReactMeteorData],
 
   getInitialState() {
-    return {
-      resultsPerPage: 10
-    };
+    return { searchParams: this.defaultSearchParams() };
   },
 
   getMeteorData() {
 
-    let searchParams = Session.get('searchParams');
-    if (!searchParams) {
-      searchParams = {
-        keywords: '',
-        fields: {},
-        currentPage: 1
-      };
-      Session.set('searchParams', searchParams);
-    }
-
+    const searchParams = this.state.searchParams;
     if (searchParams.keywords) {
       PowerSearch.search(
         searchParams.keywords,
         {
           currentPage: searchParams.currentPage,
           fields: searchParams.fields,
-          resultsPerPage: this.state.resultsPerPage
+          resultsPerPage: searchParams.resultsPerPage
         }
       );
     }
@@ -39,18 +28,35 @@ SearchContainer = React.createClass({
     const searchMetadata = PowerSearch.getMetadata();
 
     return {
-      keywords: searchParams.keywords,
       searchResults,
       searchMetadata,
-      currentPage: searchParams.currentPage,
       selectedFields: searchParams.fields
     };
 
   },
 
+  defaultSearchParams() {
+    return {
+      keywords: '',
+      fields: {},
+      currentPage: 1,
+      resultsPerPage: 10
+    };
+  },
+
+  updateSearchParams(newSearchParams) {
+    if (newSearchParams) {
+      this.setState({
+        searchParams: newSearchParams
+      });
+    } else {
+      this.setState({ searchParams: this.defaultSearchParams() });
+    }
+  },
+
   renderMain() {
     let mainContent;
-    if (!this.data.keywords) {
+    if (!this.state.searchParams.keywords) {
       mainContent = (
         <main>
           <WelcomeContent />
@@ -62,16 +68,14 @@ SearchContainer = React.createClass({
           mainContent = (
             <main>
               <ResultsCount searchMetadata={this.data.searchMetadata}
-                resultsPerPage={this.state.resultsPerPage}
-                currentPage={this.data.currentPage}
+                searchParams={this.state.searchParams}
               />
               <SearchResults searchResults={this.data.searchResults}
-                resultsPerPage={this.state.resultsPerPage}
-                currentPage={this.data.currentPage}
+                searchParams={this.state.searchParams}
               />
               <Pagination searchMetadata={this.data.searchMetadata}
-                currentPage={this.data.currentPage}
-                resultsPerPage={this.state.resultsPerPage}
+                searchParams={this.state.searchParams}
+                handleSearchParamsUpdate={this.updateSearchParams}
               />
             </main>
           );
@@ -97,7 +101,7 @@ SearchContainer = React.createClass({
 
   renderSidebar() {
     let sidebarContent;
-    if (!this.data.keywords) {
+    if (!this.state.searchParams.keywords) {
       sidebarContent = (<WelcomSidebar />);
     } else {
       if (this.data.searchMetadata.facets) {
@@ -108,16 +112,25 @@ SearchContainer = React.createClass({
               categories={this.data.searchMetadata.nestedCategories.source}
               selectedCategoryPath={this.data.selectedFields.source}
               showHelp
+              searchParams={this.state.searchParams}
+              handleSearchParamsUpdate={this.updateSearchParams}
             />
             <SearchFacet key="doctype" name="Document Type"
               field="doctype"
               values={this.data.searchMetadata.facets.doctype}
+              searchParams={this.state.searchParams}
+              handleSearchParamsUpdate={this.updateSearchParams}
             />
             <NestedCategoriesWidget field="date_ss" name="Date"
               categories={this.data.searchMetadata.nestedCategories.date_ss}
+              selectedCategoryPath={this.data.selectedFields.date_ss}
+              searchParams={this.state.searchParams}
+              handleSearchParamsUpdate={this.updateSearchParams}
             />
             <SearchFacet key="author" name="Author" field="author"
               values={this.data.searchMetadata.facets.author}
+              searchParams={this.state.searchParams}
+              handleSearchParamsUpdate={this.updateSearchParams}
             />
           </aside>
         );
@@ -137,7 +150,9 @@ SearchContainer = React.createClass({
                   <SearchLogo />
                 </div>
                 <div className="col-md-10">
-                  <SearchBar />
+                  <SearchBar searchParams={this.state.searchParams}
+                    handleSearchParamsUpdate={this.updateSearchParams}
+                  />
                 </div>
               </div>
             </div>

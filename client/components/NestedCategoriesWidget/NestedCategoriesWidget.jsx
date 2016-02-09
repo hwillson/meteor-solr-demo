@@ -4,11 +4,11 @@ NestedCategoriesWidget = React.createClass({
     field: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     categories: React.PropTypes.object.isRequired,
+    searchParams: React.PropTypes.object.isRequired,
+    handleSearchParamsUpdate: React.PropTypes.func.isRequired,
     showHelp: React.PropTypes.bool,
     selectedCategoryPath: React.PropTypes.string
   },
-
-  mixins: [ReactMeteorData],
 
   getDefaultProps() {
     return {
@@ -22,25 +22,20 @@ NestedCategoriesWidget = React.createClass({
     });
   },
 
-  getMeteorData() {
-    return {
-      searchParams: Session.get('searchParams')
-    };
-  },
-
   handleCategorySelect(selectedCategoryPath) {
     if (selectedCategoryPath) {
-      const searchParams = Session.get('searchParams');
-      searchParams.fields[this.props.field] = selectedCategoryPath;
-      searchParams.currentPage = 1;
-      Session.set('searchParams', searchParams);
+      const newSearchParams = this.props.searchParams;
+      newSearchParams.fields[this.props.field] = selectedCategoryPath;
+      newSearchParams.currentPage = 1;
+      this.props.handleSearchParamsUpdate(newSearchParams);
       window.scroll(0, 0);
     }
   },
 
   resetSelectedCategory() {
-    delete this.data.searchParams.fields[this.props.field];
-    Session.set('searchParams', this.data.searchParams);
+    const newSearchParams = this.props.searchParams;
+    delete newSearchParams.fields[this.props.field];
+    this.props.handleSearchParamsUpdate(newSearchParams);
   },
 
   closeHelp() {

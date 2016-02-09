@@ -2,20 +2,13 @@ SearchResults = React.createClass({
 
   propTypes: {
     searchResults: React.PropTypes.array.isRequired,
-    resultsPerPage: React.PropTypes.number,
-    currentPage: React.PropTypes.number
-  },
-
-  getDefaultProps() {
-    return {
-      resultsPerPage: 10,
-      currentPage: 1
-    };
+    searchParams: React.PropTypes.object.isRequired
   },
 
   resultsStartCount() {
     return ResultCount.calculateStartCount(
-      this.props.currentPage, this.props.resultsPerPage
+      this.props.searchParams.currentPage,
+      this.props.searchParams.resultsPerPage
     );
   },
 

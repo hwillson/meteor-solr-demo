@@ -3,46 +3,32 @@ SearchFacet = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
     field: React.PropTypes.string.isRequired,
-    values: React.PropTypes.array.isRequired
-  },
-
-  mixins: [ReactMeteorData],
-
-  getInitialState() {
-    return {
-      selectedFacet: ''
-    };
-  },
-
-  getMeteorData() {
-    return {
-      searchParams: Session.get('searchParams')
-    };
+    values: React.PropTypes.array.isRequired,
+    searchParams: React.PropTypes.object.isRequired,
+    handleSearchParamsUpdate: React.PropTypes.func.isRequired
   },
 
   refineByFacet(event) {
     event.preventDefault();
     const selectedFacet = event.target.getAttribute('data-value');
-    this.setState({ selectedFacet });
-    const searchParams = Session.get('searchParams');
-    searchParams.fields[this.props.field] = selectedFacet;
-    searchParams.currentPage = 1;
-    Session.set('searchParams', searchParams);
+    const newSearchParams = this.props.searchParams;
+    newSearchParams.fields[this.props.field] = selectedFacet;
+    newSearchParams.currentPage = 1;
+    this.props.handleSearchParamsUpdate(newSearchParams);
     window.scroll(0, 0);
   },
 
   unrefineFacet() {
     event.preventDefault();
-    this.setState({ selectedFacet: null });
-    const searchParams = Session.get('searchParams');
-    delete searchParams.fields[this.props.field];
-    Session.set('searchParams', searchParams);
+    const newSearchParams = this.props.searchParams;
+    delete newSearchParams.fields[this.props.field];
+    this.props.handleSearchParamsUpdate(newSearchParams);
   },
 
   renderFacetLink(name) {
     const customName = SearchFacetUtils.getCustomValue(this.props.field, name);
     let facetLink;
-    if (this.state.selectedFacet) {
+    if (this.props.searchParams.fields[this.props.field]) {
       facetLink = (
         <span className="selected">{customName}</span>
       );
@@ -60,9 +46,9 @@ SearchFacet = React.createClass({
     let facetContent;
     if (this.props.values && (this.props.values.length > 0)) {
       const facetValues = [];
+      const selectedFacet = this.props.searchParams.fields[this.props.field];
       this.props.values.forEach((value) => {
-        if (!this.state.selectedFacet
-            || (this.state.selectedFacet === value.name)) {
+        if (!selectedFacet || (selectedFacet === value.name)) {
           facetValues.push(
             <li key={value.name}>
               {this.renderFacetLink(value.name)}
@@ -79,7 +65,7 @@ SearchFacet = React.createClass({
   },
 
   renderResetLink() {
-    if (this.state.selectedFacet) {
+    if (this.props.searchParams.fields[this.props.field]) {
       return (
         <div className="reset">
           <button className="btn btn-xs btn-danger"

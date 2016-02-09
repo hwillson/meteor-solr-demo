@@ -2,20 +2,13 @@ ResultsCount = React.createClass({
 
   propTypes: {
     searchMetadata: React.PropTypes.object.isRequired,
-    resultsPerPage: React.PropTypes.number,
-    currentPage: React.PropTypes.number
-  },
-
-  getDefaultProps() {
-    return {
-      resultsPerPage: 10,
-      currentPage: 1
-    };
+    searchParams: React.PropTypes.object.isRequired
   },
 
   totalResultsLabel() {
     let totalResultsLabel = '';
-    if (this.props.searchMetadata.totalResults > this.props.resultsPerPage) {
+    if (this.props.searchMetadata.totalResults >
+        this.props.searchParams.resultsPerPage) {
       totalResultsLabel = ' of ' + this.props.searchMetadata.totalResults;
     }
     return totalResultsLabel;
@@ -23,14 +16,15 @@ ResultsCount = React.createClass({
 
   resultsStartCount() {
     return ResultCount.calculateStartCount(
-      this.props.currentPage, this.props.resultsPerPage
+      this.props.searchParams.currentPage,
+      this.props.searchParams.resultsPerPage
     );
   },
 
   resultsStopCount() {
-    const currentPage = this.props.currentPage;
+    const currentPage = this.props.searchParams.currentPage;
     const totalResults = this.props.searchMetadata.totalResults;
-    const resultsPerPage = this.props.resultsPerPage;
+    const resultsPerPage = this.props.searchParams.resultsPerPage;
     let resultsStopCount = 0;
     if ((currentPage * resultsPerPage) > totalResults) {
       resultsStopCount = totalResults;

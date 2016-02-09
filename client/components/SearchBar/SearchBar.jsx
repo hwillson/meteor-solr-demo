@@ -1,6 +1,9 @@
 SearchBar = React.createClass({
 
-  mixins: [ReactMeteorData],
+  propTypes: {
+    searchParams: React.PropTypes.object.isRequired,
+    handleSearchParamsUpdate: React.PropTypes.func.isRequired
+  },
 
   getInitialState() {
     return {
@@ -10,16 +13,10 @@ SearchBar = React.createClass({
 
   componentWillMount() {
     this.setSearchKeywords = _.debounce((keywords) => {
-      const searchParams = Session.get('searchParams');
-      searchParams.keywords = keywords;
-      Session.set('searchParams', searchParams);
+      const newSearchParams = this.props.searchParams;
+      newSearchParams.keywords = keywords;
+      this.props.handleSearchParamsUpdate(newSearchParams);
     }, 500);
-  },
-
-  getMeteorData() {
-    return {
-      searchParams: Session.get('searchParams')
-    };
   },
 
   performSearch(event) {
@@ -30,7 +27,7 @@ SearchBar = React.createClass({
 
   resetSearch(event) {
     event.preventDefault();
-    Session.set('searchParams', null);
+    this.props.handleSearchParamsUpdate(null);
     this.refs.keywords.focus();
     this.setState({ keywords: '' });
   },
