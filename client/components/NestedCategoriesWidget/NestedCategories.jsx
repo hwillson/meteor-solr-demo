@@ -8,20 +8,22 @@ NestedCategories = React.createClass({
 
   getInitialState() {
     return {
-      children: []
+      showChildren: false
     };
   },
 
   componentWillMount() {
-    if (this.doesCategoryMatch(this.props.selectedCategoryPath)) {
-      this.toggleChildren();
+    if (this.isCategorySelected(this.props.selectedCategoryPath)) {
+      this.showChildren();
     }
   },
 
   componentWillReceiveProps(newProps) {
     if (newProps.selectedCategoryPath
-        && this.doesCategoryMatch(newProps.selectedCategoryPath)) {
-      this.toggleChildren();
+        && this.isCategorySelected(newProps.selectedCategoryPath)) {
+      this.showChildren();
+    } else {
+      this.hideChildren();
     }
   },
 
@@ -35,23 +37,32 @@ NestedCategories = React.createClass({
     }
   },
 
+  showChildren() {
+    this.setState({ showChildren: true });
+  },
+
+  hideChildren() {
+    this.setState({ showChildren: false });
+  },
+
   toggleChildren() {
-    if (this.props.categories.children) {
-      if (this.state.children && this.state.children.length) {
-        this.setState({ children: null });
-      } else {
-        this.setState({ children: this.props.categories.children });
-      }
+    if (this.state.showChildren) {
+      this.hideChildren();
+    } else {
+      this.showChildren();
     }
   },
 
-  doesCategoryMatch(incomingCategory) {
-    let doesCategoryMatch = false;
-    if (incomingCategory
-        && (incomingCategory.indexOf(this.props.categories.path) === 0)) {
-      doesCategoryMatch = true;
+  isCategorySelected(incomingCategory) {
+    let isCategorySelected = false;
+    const currentPath = this.props.categories.path.substring(
+      1,
+      this.props.categories.path.length
+    );
+    if (incomingCategory && (incomingCategory.indexOf(currentPath) > -1)) {
+      isCategorySelected = true;
     }
-    return doesCategoryMatch;
+    return isCategorySelected;
   },
 
   handleCategorySelect(event) {
@@ -76,34 +87,41 @@ NestedCategories = React.createClass({
     return categoryLink;
   },
 
-  render() {
-    if (!this.state.children) {
-      this.state.children = [];
+  renderChildrenCategories() {
+    const childrenCategories = [];
+    if (this.props.categories.children) {
+      this.props.categories.children.map((child) => {
+        childrenCategories.push(
+          <NestedCategories key={child.name} categories={child}
+            onCategorySelect={this.props.onCategorySelect}
+            selectedCategoryPath={this.props.selectedCategoryPath}
+          />
+        );
+      });
+      let childrenCategoryContent;
+      if (childrenCategories) {
+        childrenCategoryContent = (
+          <ul>{childrenCategories}</ul>
+        );
+      }
+      return childrenCategoryContent;
     }
+  },
+
+  render() {
 
     const classes = classNames({
       'has-children': (this.props.categories.children ? true : false),
       'no-children': (this.props.categories.children ? false : true),
-      'open': (this.state.children.length ? true : false),
-      'closed': (this.state.children ? false : true)
+      'open': (this.state.showChildren ? true : false),
+      'closed': (this.state.showChildren ? false : true)
     });
 
     return (
       <li ref="node" className={classes} onClick={this.onChildDisplayToggle}>
         {this.renderCategoryLink()}
         <span className="count">({this.props.categories.count})</span>
-        <ul>
-          {
-            this.state.children.map((child) => {
-              return (
-                <NestedCategories key={child.name} categories={child}
-                  onCategorySelect={this.props.onCategorySelect}
-                  selectedCategoryPath={this.props.selectedCategoryPath}
-                />
-              );
-            })
-          }
-        </ul>
+        {this.renderChildrenCategories()}
       </li>
     );
 

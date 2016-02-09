@@ -42,7 +42,8 @@ SearchContainer = React.createClass({
       keywords: searchParams.keywords,
       searchResults,
       searchMetadata,
-      currentPage: searchParams.currentPage
+      currentPage: searchParams.currentPage,
+      selectedFields: searchParams.fields
     };
 
   },
@@ -105,6 +106,7 @@ SearchContainer = React.createClass({
             <h2>Refine Your Search</h2>
             <NestedCategoriesWidget field="source" name="Categories"
               categories={this.data.searchMetadata.nestedCategories.source}
+              selectedCategoryPath={this.data.selectedFields.source}
               showHelp
             />
             <SearchFacet key="doctype" name="Document Type"

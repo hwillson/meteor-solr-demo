@@ -4,7 +4,8 @@ NestedCategoriesWidget = React.createClass({
     field: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     categories: React.PropTypes.object.isRequired,
-    showHelp: React.PropTypes.bool
+    showHelp: React.PropTypes.bool,
+    selectedCategoryPath: React.PropTypes.string
   },
 
   mixins: [ReactMeteorData],
@@ -17,15 +18,8 @@ NestedCategoriesWidget = React.createClass({
 
   componentWillMount() {
     this.setState({
-      nestedCategories: this.props.categories,
       showHelp: this.props.showHelp
     });
-  },
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.categories) {
-      this.setState({ nestedCategories: newProps.categories });
-    }
   },
 
   getMeteorData() {
@@ -36,10 +30,6 @@ NestedCategoriesWidget = React.createClass({
 
   handleCategorySelect(selectedCategoryPath) {
     if (selectedCategoryPath) {
-      this.setState({
-        // nestedCategories: { children: [] },
-        selectedCategoryPath
-      });
       const searchParams = Session.get('searchParams');
       searchParams.fields[this.props.field] = selectedCategoryPath;
       searchParams.currentPage = 1;
@@ -49,11 +39,6 @@ NestedCategoriesWidget = React.createClass({
   },
 
   resetSelectedCategory() {
-    // event.preventDefault();
-    this.setState({
-      nestedCategories: { children: [] },
-      selectedCategoryPath: ''
-    });
     delete this.data.searchParams.fields[this.props.field];
     Session.set('searchParams', this.data.searchParams);
   },
@@ -65,7 +50,7 @@ NestedCategoriesWidget = React.createClass({
   },
 
   renderResetLink() {
-    if (this.state.selectedCategoryPath) {
+    if (this.props.selectedCategoryPath) {
       return (
         <div className="reset">
           <button className="btn btn-xs btn-danger"
@@ -94,13 +79,13 @@ NestedCategoriesWidget = React.createClass({
 
   renderCategoryContent() {
     let categoryContent;
-    if (this.state.nestedCategories.children.length > 0) {
+    if (this.props.categories.children.length > 0) {
       const categories = [];
-      this.state.nestedCategories.children.map((child) => {
+      this.props.categories.children.map((child) => {
         categories.push(
           <NestedCategories key={child.name} categories={child}
             onCategorySelect={this.handleCategorySelect}
-            selectedCategoryPath={this.state.selectedCategoryPath}
+            selectedCategoryPath={this.props.selectedCategoryPath}
           />
         );
       });
