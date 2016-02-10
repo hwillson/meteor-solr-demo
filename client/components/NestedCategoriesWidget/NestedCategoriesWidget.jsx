@@ -24,7 +24,7 @@ NestedCategoriesWidget = React.createClass({
 
   handleCategorySelect(selectedCategoryPath) {
     if (selectedCategoryPath) {
-      const newSearchParams = this.props.searchParams;
+      const newSearchParams = _.extend({}, this.props.searchParams);
       newSearchParams.fields[this.props.field] = selectedCategoryPath;
       newSearchParams.currentPage = 1;
       this.props.handleSearchParamsUpdate(newSearchParams);
@@ -33,7 +33,7 @@ NestedCategoriesWidget = React.createClass({
   },
 
   resetSelectedCategory() {
-    const newSearchParams = this.props.searchParams;
+    const newSearchParams = _.extend({}, this.props.searchParams);
     delete newSearchParams.fields[this.props.field];
     this.props.handleSearchParamsUpdate(newSearchParams);
   },

@@ -7,7 +7,7 @@ Pagination = React.createClass({
   },
 
   onChange(page) {
-    const newSearchParams = this.props.searchParams;
+    const newSearchParams = _.extend({}, this.props.searchParams);
     newSearchParams.currentPage = page;
     this.props.handleSearchParamsUpdate(newSearchParams);
     window.scroll(0, 0);

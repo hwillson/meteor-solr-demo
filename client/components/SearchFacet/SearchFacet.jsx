@@ -11,7 +11,7 @@ SearchFacet = React.createClass({
   refineByFacet(event) {
     event.preventDefault();
     const selectedFacet = event.target.getAttribute('data-value');
-    const newSearchParams = this.props.searchParams;
+    const newSearchParams = _.extend({}, this.props.searchParams);
     newSearchParams.fields[this.props.field] = selectedFacet;
     newSearchParams.currentPage = 1;
     this.props.handleSearchParamsUpdate(newSearchParams);
@@ -20,7 +20,7 @@ SearchFacet = React.createClass({
 
   unrefineFacet() {
     event.preventDefault();
-    const newSearchParams = this.props.searchParams;
+    const newSearchParams = _.extend({}, this.props.searchParams);
     delete newSearchParams.fields[this.props.field];
     this.props.handleSearchParamsUpdate(newSearchParams);
   },

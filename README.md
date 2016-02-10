@@ -32,8 +32,8 @@ Here are the sample Solr config and schema files used by this demo:
 **Running the Search Application**
 
 1. `git clone https://github.com/hwillson/meteor-solr-demo.git`
-2. Update `lib/models/search_config.js` with your Solr install details.
-3. Run `meteor` in the root of your project, and access the search at http://localhost:3000.
+2. Update `deploy/settings.json` with your Solr install details.
+3. Run `meteor --settings=deploy/settings.json` in the root of your project, and access the search at http://localhost:3000.
 
 ## TODO
 

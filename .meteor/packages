@@ -39,3 +39,7 @@ useraccounts:bootstrap
 useraccounts:core
 kadira:blaze-layout
 accounts-password
+mdg:validated-method
+aldeed:simple-schema
+http
+reactive-var

@@ -3,13 +3,17 @@ SearchContainer = React.createClass({
   mixins: [ReactMeteorData],
 
   getInitialState() {
-    return { searchParams: this.defaultSearchParams() };
+    return {
+      searchParams: this.defaultSearchParams(),
+      searchSuggestions: new ReactiveVar([])
+    };
   },
 
   getMeteorData() {
 
     const searchParams = this.state.searchParams;
     if (searchParams.keywords) {
+
       PowerSearch.search(
         searchParams.keywords,
         {
@@ -18,6 +22,19 @@ SearchContainer = React.createClass({
           resultsPerPage: searchParams.resultsPerPage
         }
       );
+
+      if (searchParams.provideSuggestions) {
+        App.methods.autosuggest.getSuggestions.call({
+          keywords: searchParams.keywords
+        }, (error, suggestions) => {
+          this.state.searchSuggestions.set(suggestions);
+          searchParams.provideSuggestions = false;
+        });
+      }
+
+    } else {
+      this.state.searchSuggestions.set([]);
+      searchParams.provideSuggestions = false;
     }
 
     const searchResults = PowerSearch.getData({
@@ -30,7 +47,8 @@ SearchContainer = React.createClass({
     return {
       searchResults,
       searchMetadata,
-      selectedFields: searchParams.fields
+      selectedFields: searchParams.fields,
+      searchSuggestions: this.state.searchSuggestions.get()
     };
 
   },
@@ -40,7 +58,8 @@ SearchContainer = React.createClass({
       keywords: '',
       fields: {},
       currentPage: 1,
-      resultsPerPage: 10
+      resultsPerPage: 10,
+      provideSuggestions: false
     };
   },
 
@@ -152,6 +171,7 @@ SearchContainer = React.createClass({
                 <div className="col-md-10">
                   <SearchBar searchParams={this.state.searchParams}
                     handleSearchParamsUpdate={this.updateSearchParams}
+                    searchSuggestions={this.data.searchSuggestions}
                   />
                 </div>
               </div>

@@ -2,7 +2,14 @@ SearchBar = React.createClass({
 
   propTypes: {
     searchParams: React.PropTypes.object.isRequired,
-    handleSearchParamsUpdate: React.PropTypes.func.isRequired
+    handleSearchParamsUpdate: React.PropTypes.func.isRequired,
+    searchSuggestions: React.PropTypes.array
+  },
+
+  getDefaultProps() {
+    return {
+      searchSuggestions: []
+    };
   },
 
   getInitialState() {
@@ -13,8 +20,9 @@ SearchBar = React.createClass({
 
   componentWillMount() {
     this.setSearchKeywords = _.debounce((keywords) => {
-      const newSearchParams = this.props.searchParams;
+      const newSearchParams = _.extend({}, this.props.searchParams);
       newSearchParams.keywords = keywords;
+      newSearchParams.provideSuggestions = true;
       this.props.handleSearchParamsUpdate(newSearchParams);
     }, 500);
   },
@@ -37,6 +45,24 @@ SearchBar = React.createClass({
     event.stopPropagation();
   },
 
+  renderSearchSuggestions() {
+    let suggestionList;
+    if (this.props.searchSuggestions) {
+      const suggestions = [];
+      this.props.searchSuggestions.forEach((suggestion) => {
+        suggestions.push(
+          <li key={suggestion} className="list-group-item">{suggestion}</li>
+        );
+      });
+      suggestionList = (
+        <ul className="search-suggestions list-group">
+          {suggestions}
+        </ul>
+      );
+    }
+    return suggestionList;
+  },
+
   render() {
     return (
       <div className="search-bar clearfix">
@@ -53,6 +79,7 @@ SearchBar = React.createClass({
               <i className="fa fa-search" />
             </span>
           </div>
+          {this.renderSearchSuggestions()}
         </form>
         <div className="search-reset">
           <a href="#" onClick={this.resetSearch}>Reset search?</a>
