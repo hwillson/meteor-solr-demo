@@ -5,7 +5,7 @@ SearchContainer = React.createClass({
   getInitialState() {
     return {
       searchParams: this.defaultSearchParams(),
-      searchSuggestions: new ReactiveVar([])
+      searchSuggestions: []
     };
   },
 
@@ -13,7 +13,6 @@ SearchContainer = React.createClass({
 
     const searchParams = this.state.searchParams;
     if (searchParams.keywords) {
-
       PowerSearch.search(
         searchParams.keywords,
         {
@@ -22,19 +21,6 @@ SearchContainer = React.createClass({
           resultsPerPage: searchParams.resultsPerPage
         }
       );
-
-      if (searchParams.provideSuggestions) {
-        App.methods.autosuggest.getSuggestions.call({
-          keywords: searchParams.keywords
-        }, (error, suggestions) => {
-          this.state.searchSuggestions.set(suggestions);
-          searchParams.provideSuggestions = false;
-        });
-      }
-
-    } else {
-      this.state.searchSuggestions.set([]);
-      searchParams.provideSuggestions = false;
     }
 
     const searchResults = PowerSearch.getData({
@@ -46,9 +32,7 @@ SearchContainer = React.createClass({
 
     return {
       searchResults,
-      searchMetadata,
-      selectedFields: searchParams.fields,
-      searchSuggestions: this.state.searchSuggestions.get()
+      searchMetadata
     };
 
   },
@@ -58,8 +42,7 @@ SearchContainer = React.createClass({
       keywords: '',
       fields: {},
       currentPage: 1,
-      resultsPerPage: 10,
-      provideSuggestions: false
+      resultsPerPage: 10
     };
   },
 
@@ -70,6 +53,22 @@ SearchContainer = React.createClass({
       });
     } else {
       this.setState({ searchParams: this.defaultSearchParams() });
+    }
+  },
+
+  provideSuggestions(keywords) {
+    if (keywords) {
+      App.methods.autosuggest.getSuggestions.call({
+        keywords
+      }, (error, suggestions) => {
+        this.setState({
+          searchSuggestions: suggestions
+        });
+      });
+    } else {
+      this.setState({
+        searchSuggestions: []
+      });
     }
   },
 
@@ -129,7 +128,7 @@ SearchContainer = React.createClass({
             <h2>Refine Your Search</h2>
             <NestedCategoriesWidget field="source" name="Categories"
               categories={this.data.searchMetadata.nestedCategories.source}
-              selectedCategoryPath={this.data.selectedFields.source}
+              selectedCategoryPath={this.state.searchParams.fields.source}
               showHelp
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
@@ -142,7 +141,7 @@ SearchContainer = React.createClass({
             />
             <NestedCategoriesWidget field="date_ss" name="Date"
               categories={this.data.searchMetadata.nestedCategories.date_ss}
-              selectedCategoryPath={this.data.selectedFields.date_ss}
+              selectedCategoryPath={this.state.searchParams.fields.date_ss}
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
             />
@@ -171,7 +170,8 @@ SearchContainer = React.createClass({
                 <div className="col-md-10">
                   <SearchBar searchParams={this.state.searchParams}
                     handleSearchParamsUpdate={this.updateSearchParams}
-                    searchSuggestions={this.data.searchSuggestions}
+                    searchSuggestions={this.state.searchSuggestions}
+                    requestSuggestions={this.provideSuggestions}
                   />
                 </div>
               </div>
