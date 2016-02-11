@@ -35,7 +35,22 @@ Here are the sample Solr config and schema files used by this demo:
 2. Update `deploy/settings.json` with your Solr install details.
 3. Run `meteor --settings=deploy/settings.json` in the root of your project, and access the search at http://localhost:3000.
 
+## Search Analytics
+
+Search analytics are captured and stored in the Meteor provided Mongo DB instance. These analytics are only captured for now; this POC does not provide a way to view the captured details (data can be exported from Mongo as needed). The following analytics are captured for each user:
+
+a) Searches made (stored the the Mongo DB `analytics_searches` collection). Captures:
+- Username of user making the search.
+- Search keywords used.
+- If the search is a facet refinement, the name of the field used to refine.
+- If the search is a facet refinement, the value of the field used to refine.
+- Total number of search results from this search.
+
+b) Search results selected (stored in the Mongo DB `analytics_search_results` collection). Captures:
+- Associated search record (so results selected can be linked back to search keywords and fields used).
+- Result document link selected.
+- Page search result was found on.
+
 ## TODO
 
 - Wire search analytics tracking up.
-- Wire up search keyword type ahead functionality using the [Solr Suggester](https://cwiki.apache.org/confluence/display/solr/Suggester).

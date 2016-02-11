@@ -66,7 +66,6 @@ SearchBar = React.createClass({
       const newSearchParams = _.extend({}, this.props.searchParams);
       newSearchParams.keywords =
         this.props.searchSuggestions[this.state.selectedSuggestionIndex];
-      // // newSearchParams.provideSuggestions = false;
       this.props.handleSearchParamsUpdate(newSearchParams);
       this.props.requestSuggestions(null);
       this.setState({
