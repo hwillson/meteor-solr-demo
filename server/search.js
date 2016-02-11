@@ -24,6 +24,7 @@ SearchSource.defineSource('powerSearch', (keywords, options) => {
     metadata.totalResults = solrSearchResponse.totalResults();
     metadata.facets = solrSearchResponse.facets;
     metadata.nestedCategories = solrSearchResponse.nestedCategories;
+    metadata.loggedSearchId = solrSearchResponse.loggedSearchId;
   }
 
   return {

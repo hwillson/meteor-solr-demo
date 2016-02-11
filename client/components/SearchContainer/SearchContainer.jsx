@@ -90,6 +90,7 @@ SearchContainer = React.createClass({
               />
               <SearchResults searchResults={this.data.searchResults}
                 searchParams={this.state.searchParams}
+                searchMetadata={this.data.searchMetadata}
               />
               <Pagination searchMetadata={this.data.searchMetadata}
                 searchParams={this.state.searchParams}

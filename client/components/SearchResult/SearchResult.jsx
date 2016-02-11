@@ -1,7 +1,17 @@
 SearchResult = React.createClass({
 
   propTypes: {
-    result: React.PropTypes.object
+    result: React.PropTypes.object,
+    currentPage: React.PropTypes.number.isRequired,
+    searchMetadata: React.PropTypes.object.isRequired
+  },
+
+  logSearchResult(event) {
+    App.methods.loggedSearchResult.create.call({
+      loggedSearchId: this.props.searchMetadata.loggedSearchId,
+      documentUrl: event.target.href,
+      page: this.props.currentPage
+    });
   },
 
   renderContent() {
@@ -14,7 +24,9 @@ SearchResult = React.createClass({
     return (
       <li className="search-result">
         <div className="search-result-title">
-          <a href={this.props.result.returnUrl} target="_blank">
+          <a href={this.props.result.returnUrl} target="_blank"
+            onClick={this.logSearchResult}
+          >
             {this.props.result.title}
           </a>
         </div>

@@ -39,15 +39,15 @@ Here are the sample Solr config and schema files used by this demo:
 
 Search analytics are captured and stored in the Meteor provided Mongo DB instance. These analytics are only captured for now; this POC does not provide a way to view the captured details (data can be exported from Mongo as needed). The following analytics are captured for each user:
 
-a) Searches made (stored the the Mongo DB `analytics_searches` collection). Captures:
+a) Searches made (stored the the Mongo DB `logged_searches` collection). Captures:
 - Username of user making the search.
 - Search keywords used.
 - If the search is a facet refinement, the name of the field used to refine.
 - If the search is a facet refinement, the value of the field used to refine.
 - Total number of search results from this search.
 
-b) Search results selected (stored in the Mongo DB `analytics_search_results` collection). Captures:
-- Associated search record (so results selected can be linked back to search keywords and fields used).
+b) Search results selected (stored in the Mongo DB `logged_search_results` collection). Captures:
+- Associated search record ID (so results selected can be linked back to search keywords and fields used).
 - Result document link selected.
 - Page search result was found on.
 
