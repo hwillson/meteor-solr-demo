@@ -16,7 +16,8 @@ SearchBar = React.createClass({
   getInitialState() {
     return {
       keywords: '',
-      selectedSuggestionIndex: 0
+      selectedSuggestionIndex: 0,
+      showSuggestions: true
     };
   },
 
@@ -30,6 +31,9 @@ SearchBar = React.createClass({
   },
 
   performSearch(event) {
+    if (!this.state.showSuggestions) {
+      this.setState({ showSuggestions: true });
+    }
     const keywords = event.target.value;
     this.setSearchKeywords(keywords);
     this.setState({ keywords });
@@ -72,13 +76,22 @@ SearchBar = React.createClass({
         keywords: newSearchParams.keywords,
         selectedSuggestionIndex: 0
       });
+    } else if (event.keyCode === 27) {
+      // Cancel autosuggest (esc key)
+      this.setState({ showSuggestions: false });
     }
 
   },
 
+  hideSuggestions(event) {
+    event.preventDefault();
+    this.setState({ showSuggestions: false });
+  },
+
   renderSearchSuggestions() {
     let suggestionList;
-    if (this.props.searchSuggestions) {
+    if (this.state.showSuggestions && this.props.searchSuggestions
+        && (this.props.searchSuggestions.length > 0)) {
       const suggestions = [];
       let suggestionIndex = 0;
       this.props.searchSuggestions.forEach((suggestion) => {
@@ -94,9 +107,16 @@ SearchBar = React.createClass({
         suggestionIndex++;
       });
       suggestionList = (
-        <ul className="search-suggestions list-group">
-          {suggestions}
-        </ul>
+        <div>
+          <a href="#" className="close-suggestions"
+            onClick={this.hideSuggestions}
+          >
+            <i className="fa fa-times-circle fa-2x"></i>
+          </a>
+          <ul className="search-suggestions list-group hidden-xs">
+            {suggestions}
+          </ul>
+        </div>
       );
     }
     return suggestionList;
