@@ -65,8 +65,8 @@ SearchBar = React.createClass({
       this.setState({
         selectedSuggestionIndex: --this.state.selectedSuggestionIndex
       });
-    } else if (event.keyCode === 13) {
-      // Selected suggestion
+    } else if ((event.keyCode === 13) || (event.type === 'click')) {
+      // Selected suggestion (via enter key or mouse click)
       const newSearchParams = _.extend({}, this.props.searchParams);
       newSearchParams.keywords =
         this.props.searchSuggestions[this.state.selectedSuggestionIndex];
@@ -81,6 +81,11 @@ SearchBar = React.createClass({
       this.setState({ showSuggestions: false });
     }
 
+  },
+
+  highlightSuggestionByMouse(event) {
+    const suggestionIndex = event.target.getAttribute('data-suggestion-index');
+    this.setState({ selectedSuggestionIndex: parseInt(suggestionIndex, 10) });
   },
 
   hideSuggestions(event) {
@@ -100,7 +105,11 @@ SearchBar = React.createClass({
             ? true : false)
         });
         suggestions.push(
-          <li key={suggestion} className={'list-group-item ' + active}>
+          <li key={suggestion} className={'list-group-item ' + active}
+            data-suggestion-index={suggestionIndex}
+            onMouseEnter={this.highlightSuggestionByMouse}
+            onClick={this.selectSuggestion}
+          >
             {suggestion}
           </li>
         );
