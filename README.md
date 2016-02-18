@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/hwillson/meteor-solr-demo.png?label=ready&title=Ready)](https://waffle.io/hwillson/meteor-solr-demo)
 # Meteor + Solr Search Application Demo
 
 This project demonstrates one approach for using [Solr](http://lucene.apache.org/solr/) with [Meteor](https://meteor.com). It provides the following functionality:
