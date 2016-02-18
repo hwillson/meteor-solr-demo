@@ -32,6 +32,9 @@
           "spreadsheet": "Spreadsheet"
         }
       }
+    },
+    "analyticsControl": {
+      "container": "database"
     }
   }
 }

@@ -1,5 +1,6 @@
-[![Stories in Ready](https://badge.waffle.io/hwillson/meteor-solr-demo.png?label=ready&title=Ready)](https://waffle.io/hwillson/meteor-solr-demo)
 # Meteor + Solr Search Application Demo
+
+[![Stories in Ready](https://badge.waffle.io/hwillson/meteor-solr-demo.png?label=ready&title=Ready)](https://waffle.io/hwillson/meteor-solr-demo)
 
 This project demonstrates one approach for using [Solr](http://lucene.apache.org/solr/) with [Meteor](https://meteor.com). It provides the following functionality:
 
@@ -38,20 +39,59 @@ Here are the sample Solr config and schema files used by this demo:
 
 ## Search Analytics
 
-Search analytics are captured and stored in the Meteor provided Mongo DB instance. These analytics are only captured for now; this POC does not provide a way to view the captured details (data can be exported from Mongo as needed). The following analytics are captured for each user:
+The following analytics are captured for each user:
+- Username of user making the search
+- Search keywords used
+- If the search is a facet refinement, the name of the field used to refine
+- If the search is a facet refinement, the value of the field used to refine
+- Total number of search results from this search
+- Clicked on search result URLs
+- Page clicked on search result was found
 
-a) Searches made (stored the the Mongo DB `logged_searches` collection). Captures:
-- Username of user making the search.
-- Search keywords used.
-- If the search is a facet refinement, the name of the field used to refine.
-- If the search is a facet refinement, the value of the field used to refine.
-- Total number of search results from this search.
+Search analytics can be captured in one of two ways:
+1. In a Mongo database.
+2. In a supported 3rd party cloud based analytics system.
 
-b) Search results selected (stored in the Mongo DB `logged_search_results` collection). Captures:
-- Associated search record ID (so results selected can be linked back to search keywords and fields used).
-- Result document link selected.
-- Page search result was found on.
+Define the analytics data capture approach in the deploy/settings.json file.
 
-## TODO
+Mongo DB:
 
-- Wire search analytics tracking up.
+    {
+      "public": {
+        "analyticsControl": {
+          "container": "database"
+        }
+      }
+    }
+
+Cloud Analytics System:
+
+    {
+      "public": {
+        "analyticsControl": {
+          "container": "cloud"
+        }
+      }
+    }
+
+### Search Analytics: Database (Mongo)
+
+Using this approach search analytics are captured and stored in the Meteor provided Mongo DB instance. These analytics are only captured for now; this POC does not provide a way to view the captured details (data can be exported from Mongo as needed).
+
+Searches made are stored in the Mongo DB `logged_searches` collection. Search results selected are stored in the Mongo DB `logged_search_results` collection, along with a search record ID to associate selected results back to the search keywords and fields used.
+
+### Search Analytics: 3rd Party Analytics
+
+Using this approach search analytics are fired up to a 3rd party cloud based analytics system. This approach uses the [okgrow:analytics](https://atmospherejs.com/okgrow/analytics) package. Follow that packages configuration instructions to wire up your analytics system of choice. This project assumes a default of Google Analytics (but can be easily changed as needed).
+
+Cloud analytics settings are configured in the deploy/settings.json file:
+
+    {
+      "public": {
+        "analyticsSettings": {
+          "Google Analytics": {
+            "trackingId": "Your tracking ID"
+          }
+        }
+      }
+    }
