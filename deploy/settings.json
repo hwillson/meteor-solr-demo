@@ -15,9 +15,10 @@
         "returnUrl",
         "author",
         "doctype",
-        "source"
+        "source",
+        "ml_entity_location"
       ],
-      "flatFacets": ["doctype", "author"],
+      "flatFacets": ["doctype", "author", "ml_entity_location"],
       "hierarchicalFacets": ["source", "date_ss"],
       "customFacetLabels": {
         "doctype": {

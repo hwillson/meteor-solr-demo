@@ -153,6 +153,12 @@ SearchContainer = React.createClass({
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
             />
+            <SearchFacet key="ml_entity_location" name="Location"
+              field="ml_entity_location"
+              values={this.data.searchMetadata.facets.ml_entity_location}
+              searchParams={this.state.searchParams}
+              handleSearchParamsUpdate={this.updateSearchParams}
+            />
           </aside>
         );
       }

@@ -7,7 +7,7 @@ This project demonstrates one approach for using [Solr](http://lucene.apache.org
 - Meteor based single page search application
 - Searches automatically as you type
 - Provides Solr facet handling capabilities through custom facet UI widgets
-- Demonstrates single level facet refinements through sample Document Type, Date and Author facet widgets
+- Demonstrates single level facet refinements through sample Document Type, Date,  Author and Location facet widgets
 - Demonstrates multi level facet refinements through a sample Categories facet widget
 - Search can be refined by each facet independently, with each facet keeping track of its current state (making it easy to unrefine)
 - Tracks general user search actions (search keywords used, number of results found, results selected, page of result selected, facet refinement selected, etc.) via Mongo
