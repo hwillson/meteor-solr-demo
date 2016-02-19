@@ -159,6 +159,12 @@ SearchContainer = React.createClass({
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
             />
+            <SearchFacet key="ml_entity_organization" name="Organization"
+              field="ml_entity_organization"
+              values={this.data.searchMetadata.facets.ml_entity_organization}
+              searchParams={this.state.searchParams}
+              handleSearchParamsUpdate={this.updateSearchParams}
+            />
           </aside>
         );
       }

@@ -16,9 +16,15 @@
         "author",
         "doctype",
         "source",
-        "ml_entity_location"
+        "ml_entity_location",
+        "ml_entity_organization"
       ],
-      "flatFacets": ["doctype", "author", "ml_entity_location"],
+      "flatFacets": [
+        "doctype",
+        "author",
+        "ml_entity_location",
+        "ml_entity_organization"
+      ],
       "hierarchicalFacets": ["source", "date_ss"],
       "customFacetLabels": {
         "doctype": {
