@@ -165,6 +165,12 @@ SearchContainer = React.createClass({
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
             />
+            <SearchFacet key="ml_keyword" name="Related Terms"
+              field="ml_keyword"
+              values={this.data.searchMetadata.facets.ml_keyword}
+              searchParams={this.state.searchParams}
+              handleSearchParamsUpdate={this.updateSearchParams}
+            />
           </aside>
         );
       }

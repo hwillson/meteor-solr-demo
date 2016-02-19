@@ -17,13 +17,15 @@
         "doctype",
         "source",
         "ml_entity_location",
-        "ml_entity_organization"
+        "ml_entity_organization",
+        "ml_keyword"
       ],
       "flatFacets": [
         "doctype",
         "author",
         "ml_entity_location",
-        "ml_entity_organization"
+        "ml_entity_organization",
+        "ml_keyword"
       ],
       "hierarchicalFacets": ["source", "date_ss"],
       "customFacetLabels": {
