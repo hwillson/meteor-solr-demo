@@ -16,7 +16,7 @@ SearchBar = React.createClass({
   getInitialState() {
     return {
       keywords: '',
-      selectedSuggestionIndex: 0,
+      selectedSuggestionIndex: -1,
       showSuggestions: true
     };
   },
@@ -66,26 +66,28 @@ SearchBar = React.createClass({
         selectedSuggestionIndex: --this.state.selectedSuggestionIndex
       });
     } else if ((event.keyCode === 13) || (event.type === 'click')) {
-      // Selected suggestion (via enter key or mouse click)
-      const newSearchParams = _.extend({}, this.props.searchParams);
-      newSearchParams.keywords =
-        this.props.searchSuggestions[this.state.selectedSuggestionIndex];
-      newSearchParams.keywords =
-        newSearchParams.keywords.replace(/<(?:.|\n)*?>/gm, '');
-      this.props.handleSearchParamsUpdate(newSearchParams);
-      this.props.requestSuggestions(null);
-      let keywords;
-      if (newSearchParams.keywords) {
-        // keywords = `"${newSearchParams.keywords}"`;
-        keywords = newSearchParams.keywords;
+      if (this.state.selectedSuggestionIndex > -1) {
+        // Selected suggestion (via enter key or mouse click)
+        const newSearchParams = _.extend({}, this.props.searchParams);
+        newSearchParams.keywords =
+          this.props.searchSuggestions[this.state.selectedSuggestionIndex];
+        newSearchParams.keywords =
+          newSearchParams.keywords.replace(/<(?:.|\n)*?>/gm, '');
+        this.props.handleSearchParamsUpdate(newSearchParams);
+        this.props.requestSuggestions(null);
+        let keywords;
+        if (newSearchParams.keywords) {
+          // keywords = `"${newSearchParams.keywords}"`;
+          keywords = newSearchParams.keywords;
+        }
+        this.setState({
+          keywords
+        });
       }
-      this.setState({
-        keywords,
-        selectedSuggestionIndex: 0
-      });
+      this.hideSuggestions();
     } else if (event.keyCode === 27) {
       // Cancel autosuggest (esc key)
-      this.setState({ showSuggestions: false });
+      this.hideSuggestions();
     }
 
   },
@@ -96,8 +98,13 @@ SearchBar = React.createClass({
   },
 
   hideSuggestions(event) {
-    event.preventDefault();
-    this.setState({ showSuggestions: false });
+    if (event) {
+      event.preventDefault();
+    }
+    this.setState({
+      showSuggestions: false,
+      selectedSuggestionIndex: -1
+    });
   },
 
   renderSearchSuggestions() {
