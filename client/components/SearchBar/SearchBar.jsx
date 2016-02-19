@@ -70,6 +70,8 @@ SearchBar = React.createClass({
       const newSearchParams = _.extend({}, this.props.searchParams);
       newSearchParams.keywords =
         this.props.searchSuggestions[this.state.selectedSuggestionIndex];
+      newSearchParams.keywords =
+        newSearchParams.keywords.replace(/<(?:.|\n)*?>/gm, '');
       this.props.handleSearchParamsUpdate(newSearchParams);
       this.props.requestSuggestions(null);
       let keywords;
@@ -115,7 +117,7 @@ SearchBar = React.createClass({
             onMouseEnter={this.highlightSuggestionByMouse}
             onClick={this.selectSuggestion}
           >
-            {suggestion}
+            <span dangerouslySetInnerHTML={{ __html: suggestion }} />
           </li>
         );
         suggestionIndex++;

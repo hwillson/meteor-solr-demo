@@ -5,7 +5,7 @@
       "host": "localhost",
       "port": 8983,
       "core": "testcore",
-      "suggesterUrl": "/suggesthandler1",
+      "suggesterUrl": "/suggesthandler2",
       "limitFields": [
         "id",
         "title",
