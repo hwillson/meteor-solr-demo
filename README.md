@@ -39,6 +39,16 @@ Here are the sample Solr config and schema files used by this demo:
 
 ## Search Analytics
 
+Search analytics logging can be turned on/off in the `deploy/settings.json` file:
+
+    {
+      "public": {
+        "analyticsControl": {
+          "loggingEnabled": true
+        }
+      }
+    }
+
 The following analytics are captured for each user:
 - Username of user making the search
 - Search keywords used
@@ -52,7 +62,7 @@ Search analytics can be captured in one of two ways:
 1. In a Mongo database.
 2. In a supported 3rd party cloud based analytics system.
 
-Define the analytics data capture approach in the deploy/settings.json file.
+Define the analytics data capture approach in the `deploy/settings.json` file.
 
 Mongo DB:
 
@@ -64,7 +74,7 @@ Mongo DB:
       }
     }
 
-Cloud Analytics System:
+Cloud analytics system:
 
     {
       "public": {
@@ -84,7 +94,7 @@ Searches made are stored in the Mongo DB `logged_searches` collection. Search re
 
 Using this approach search analytics are fired up to a 3rd party cloud based analytics system. This approach uses the [okgrow:analytics](https://atmospherejs.com/okgrow/analytics) package. Follow that packages configuration instructions to wire up your analytics system of choice. This project assumes a default of Google Analytics (but can be easily changed as needed).
 
-Cloud analytics settings are configured in the deploy/settings.json file:
+Cloud analytics settings are configured in the `deploy/settings.json` file:
 
     {
       "public": {

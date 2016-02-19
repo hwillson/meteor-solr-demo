@@ -14,6 +14,7 @@ SearchFacet = React.createClass({
     const newSearchParams = _.extend({}, this.props.searchParams);
     newSearchParams.fields[this.props.field] = selectedFacet;
     newSearchParams.currentPage = 1;
+    newSearchParams.lastAddedFieldName = this.props.field;
     this.props.handleSearchParamsUpdate(newSearchParams);
     window.scroll(0, 0);
   },
@@ -22,6 +23,7 @@ SearchFacet = React.createClass({
     event.preventDefault();
     const newSearchParams = _.extend({}, this.props.searchParams);
     delete newSearchParams.fields[this.props.field];
+    newSearchParams.lastAddedFieldName = null;
     this.props.handleSearchParamsUpdate(newSearchParams);
   },
 

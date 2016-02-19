@@ -34,7 +34,13 @@
       }
     },
     "analyticsControl": {
-      "container": "database"
+      "loggingEnabled": true,
+      "container": "cloud"
+    },
+    "analyticsSettings": {
+      "Google Analytics": {
+        "trackingId": "UA-1885741-2"
+      }
     }
   }
 }

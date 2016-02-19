@@ -42,7 +42,8 @@ SearchContainer = React.createClass({
       keywords: '',
       fields: {},
       currentPage: 1,
-      resultsPerPage: 10
+      resultsPerPage: 10,
+      lastAddedFieldName: null
     };
   },
 
@@ -51,6 +52,7 @@ SearchContainer = React.createClass({
       this.setState({
         searchParams: newSearchParams
       });
+      App.utilities.searchLogger.logSearchToCloud(newSearchParams);
     } else {
       this.setState({ searchParams: this.defaultSearchParams() });
     }
