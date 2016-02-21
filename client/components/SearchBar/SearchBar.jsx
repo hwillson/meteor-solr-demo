@@ -119,7 +119,7 @@ SearchBar = React.createClass({
             ? true : false)
         });
         suggestions.push(
-          <li key={suggestion} className={'list-group-item ' + active}
+          <li key={suggestionIndex} className={'list-group-item ' + active}
             data-suggestion-index={suggestionIndex}
             onMouseEnter={this.highlightSuggestionByMouse}
             onClick={this.selectSuggestion}
