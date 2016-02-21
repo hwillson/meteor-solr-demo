@@ -20,14 +20,38 @@
         "ml_entity_organization",
         "ml_keyword"
       ],
-      "flatFacets": [
-        "doctype",
-        "author",
-        "ml_entity_location",
-        "ml_entity_organization",
-        "ml_keyword"
-      ],
-      "hierarchicalFacets": ["source", "date_ss"],
+      "flatFacets": {
+        "doctype": {
+          "limit": 10,
+          "sort": "count"
+        },
+        "author": {
+          "limit": 10,
+          "sort": "count"
+        },
+        "ml_entity_location": {
+          "limit": 10,
+          "sort": "count"
+        },
+        "ml_entity_organization": {
+          "limit": 10,
+          "sort": "count"
+        },
+        "ml_keyword": {
+          "limit": 10,
+          "sort": "count"
+        }
+      },
+      "hierarchicalFacets": {
+        "source": {
+          "limit": 100,
+          "sort": "index"
+        },
+        "date_ss": {
+          "limit": 100,
+          "sort": "index"
+        }
+      },
       "customFacetLabels": {
         "doctype": {
           "html": "HTML",
