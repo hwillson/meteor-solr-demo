@@ -136,20 +136,9 @@ SearchContainer = React.createClass({
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
             />
-            <SearchFacet key="doctype" name="Document Type"
-              field="doctype"
-              values={this.data.searchMetadata.facets.doctype}
-              searchParams={this.state.searchParams}
-              handleSearchParamsUpdate={this.updateSearchParams}
-            />
             <NestedCategoriesWidget field="date_ss" name="Date"
               categories={this.data.searchMetadata.nestedCategories.date_ss}
               selectedCategoryPath={this.state.searchParams.fields.date_ss}
-              searchParams={this.state.searchParams}
-              handleSearchParamsUpdate={this.updateSearchParams}
-            />
-            <SearchFacet key="author" name="Author" field="author"
-              values={this.data.searchMetadata.facets.author}
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
             />
@@ -159,15 +148,26 @@ SearchContainer = React.createClass({
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
             />
+            <SearchFacet key="ml_keyword" name="Related Terms"
+              field="ml_keyword"
+              values={this.data.searchMetadata.facets.ml_keyword}
+              searchParams={this.state.searchParams}
+              handleSearchParamsUpdate={this.updateSearchParams}
+            />
             <SearchFacet key="ml_entity_organization" name="Organization"
               field="ml_entity_organization"
               values={this.data.searchMetadata.facets.ml_entity_organization}
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
             />
-            <SearchFacet key="ml_keyword" name="Related Terms"
-              field="ml_keyword"
-              values={this.data.searchMetadata.facets.ml_keyword}
+            <SearchFacet key="author" name="Author" field="author"
+              values={this.data.searchMetadata.facets.author}
+              searchParams={this.state.searchParams}
+              handleSearchParamsUpdate={this.updateSearchParams}
+            />
+            <SearchFacet key="doctype" name="Document Type"
+              field="doctype"
+              values={this.data.searchMetadata.facets.doctype}
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
             />
