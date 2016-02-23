@@ -73,12 +73,12 @@ SearchBar = React.createClass({
           this.props.searchSuggestions[this.state.selectedSuggestionIndex];
         newSearchParams.keywords =
           newSearchParams.keywords.replace(/<(?:.|\n)*?>/gm, '');
+        newSearchParams.keywords = `"${newSearchParams.keywords}"`;
         this.props.handleSearchParamsUpdate(newSearchParams);
         this.props.requestSuggestions(null);
         let keywords;
         if (newSearchParams.keywords) {
-          keywords = `"${newSearchParams.keywords}"`;
-          // keywords = newSearchParams.keywords;
+          keywords = newSearchParams.keywords;
         }
         this.setState({
           keywords
