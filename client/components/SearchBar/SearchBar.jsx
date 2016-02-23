@@ -111,10 +111,9 @@ SearchBar = React.createClass({
     let suggestionList;
     if (this.state.showSuggestions && this.props.searchSuggestions
         && (this.props.searchSuggestions.length > 0)) {
-      const uniqueSuggestions = new Set(this.props.searchSuggestions);
       const suggestions = [];
       let suggestionIndex = 0;
-      uniqueSuggestions.forEach((suggestion) => {
+      this.props.searchSuggestions.forEach((suggestion) => {
         const active = classNames({
           'active': (suggestionIndex === this.state.selectedSuggestionIndex
             ? true : false)
