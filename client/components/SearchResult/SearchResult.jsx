@@ -7,13 +7,11 @@ SearchResult = React.createClass({
   },
 
   logSearchResult(event) {
-    if (App.utilities.searchLogger.isLoggingEnabled('database')) {
-      App.methods.loggedSearchResult.create.call({
-        loggedSearchId: this.props.searchMetadata.loggedSearchId,
-        documentUrl: event.target.href,
-        page: this.props.currentPage
-      });
-    }
+    App.utilities.searchLogger.logSearchResult(
+      event.target.href,
+      this.props.currentPage,
+      this.props.searchMetadata.loggedSearchId
+    );
   },
 
   renderContent() {
