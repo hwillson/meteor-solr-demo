@@ -43,7 +43,8 @@ SearchContainer = React.createClass({
       fields: {},
       currentPage: 1,
       resultsPerPage: 10,
-      lastAddedFieldName: null
+      lastAddedFieldName: null,
+      suggestionKeywords: ''
     };
   },
 
@@ -58,10 +59,10 @@ SearchContainer = React.createClass({
     }
   },
 
-  provideSuggestions(keywords) {
-    if (keywords) {
+  provideSuggestions(suggestionKeywords) {
+    if (suggestionKeywords) {
       App.methods.autosuggest.getSuggestions.call({
-        keywords
+        suggestionKeywords
       }, (error, suggestions) => {
         this.setState({
           searchSuggestions: suggestions
