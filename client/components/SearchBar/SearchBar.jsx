@@ -52,6 +52,7 @@ SearchBar = React.createClass({
       this.props.requestSuggestions(keywords.slice(sliceStart));
     } else {
       this.setState({
+        showSuggestions: false,
         suggestionKeywordsStart: 0
       });
     }
