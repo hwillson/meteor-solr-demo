@@ -21,10 +21,11 @@ SearchResult = React.createClass({
   },
 
   render() {
+    const resultUrl = encodeURI(this.props.result.returnUrl);
     return (
       <li className="search-result">
         <div className="search-result-title">
-          <a href={this.props.result.returnUrl} target="_blank"
+          <a href={resultUrl} target="_blank"
             onClick={this.logSearchResult}
           >
             {this.props.result.title}
