@@ -36,8 +36,12 @@ SearchBar = React.createClass({
       this.setState({ showSuggestions: true });
     }
     const keywords = event.target.value;
-    this.setSearchKeywords(keywords);
-    this.setState({ keywords });
+    if (keywords) {
+      this.setSearchKeywords(keywords);
+      this.setState({ keywords });
+    } else {
+      this.resetSearch();
+    }
   },
 
   requestSuggestions(keywords) {
@@ -59,7 +63,10 @@ SearchBar = React.createClass({
   },
 
   resetSearch(event) {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
+    this.hideSuggestions();
     this.props.handleSearchParamsUpdate(null);
     this.refs.keywords.focus();
     this.setState({ keywords: '' });
