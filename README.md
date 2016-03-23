@@ -28,8 +28,8 @@ This demo is built using Meteor for all client/server code, with Solr handling t
 
 Here are the sample Solr config and schema files used by this demo:
 
-- [solrconfig.xml](https://raw.githubusercontent.com/hwillson/meteor-solr-demo/master/public/solr/solrconfig.xml)
-- [schema.xml](https://raw.githubusercontent.com/hwillson/meteor-solr-demo/master/public/solr/schema.xml)
+- [solrconfig.xml](https://raw.githubusercontent.com/hwillson/meteor-solr-demo/master/private/solr/config/solrconfig.xml)
+- [schema.xml](https://raw.githubusercontent.com/hwillson/meteor-solr-demo/master/private/solr/config/schema.xml)
 
 **Running the Search Application**
 
