@@ -1165,6 +1165,53 @@
     </arr>
   </requestHandler>
 
+  <searchComponent name="suggest1" class="solr.SuggestComponent">
+    <lst name="suggester">
+      <str name="name">mySuggester1</str>
+      <str name="lookupImpl">FuzzyLookupFactory</str>
+      <str name="storeDir">suggester_fuzzy_dir</str>
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="field">title</str>
+      <str name="suggestAnalyzerFieldType">suggestType</str>
+      <str name="buildOnStartup">false</str>
+      <str name="buildOnCommit">false</str>
+    </lst>
+  </searchComponent>
+  <requestHandler name="/suggesthandler1" class="solr.SearchHandler" startup="lazy" >
+    <lst name="defaults">
+      <str name="suggest">true</str>
+      <str name="suggest.count">10</str>
+      <str name="suggest.dictionary">mySuggester1</str>
+    </lst>
+    <arr name="components">
+      <str>suggest1</str>
+    </arr>
+  </requestHandler>
+
+  <searchComponent name="suggest2" class="solr.SuggestComponent">
+    <lst name="suggester">
+      <str name="name">mySuggester2</str>
+      <str name="lookupImpl">AnalyzingInfixLookupFactory</str>
+      <str name="storeDir">suggester_infix_dir</str>
+
+      <str name="dictionaryImpl">DocumentDictionaryFactory</str>
+      <str name="field">ml_keyword</str>
+      <str name="suggestAnalyzerFieldType">suggestType</str>
+      <str name="buildOnStartup">false</str>
+      <str name="buildOnCommit">false</str>
+    </lst>
+  </searchComponent>
+  <requestHandler name="/suggesthandler2" class="solr.SearchHandler" startup="lazy" >
+    <lst name="defaults">
+      <str name="suggest">true</str>
+      <str name="suggest.count">10</str>
+      <str name="suggest.dictionary">mySuggester2</str>
+    </lst>
+    <arr name="components">
+      <str>suggest2</str>
+    </arr>
+  </requestHandler>
+
   <!-- Term Vector Component
 
        http://wiki.apache.org/solr/TermVectorComponent

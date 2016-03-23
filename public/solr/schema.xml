@@ -413,6 +413,9 @@
   <field name="source" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="summary" type="string" indexed="false" stored="true" multiValued="false"/>
   <field name="returnUrl" type="string" indexed="true" stored="true" multiValued="false"/>
+  <field name="ml_entity_location" type="string" indexed="true" stored="true" multiValued="false"/>
+  <field name="ml_entity_organization" type="string" indexed="true" stored="true" multiValued="false"/>
+  <field name="ml_keyword" type="string" indexed="true" stored="true" multiValued="true"/>
 
   <dynamicField name="*_txt_en_split_tight" type="text_en_splitting_tight" indexed="true" stored="true"/>
   <dynamicField name="*_descendent_path" type="descendent_path" indexed="true" stored="true"/>
@@ -492,5 +495,14 @@
   <copyField source="title" dest="content"/>
   <copyField source="author" dest="content"/>
   <copyField source="content" dest="summary" maxChars="300"/>
+  <copyField source="ml_keyword" dest="content"/>
+
+  <fieldType class="solr.TextField" name="suggestType" positionIncrementGap="100">
+    <analyzer>
+      <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^a-zA-Z0-9]" replacement=" " />
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
 
 </schema>
