@@ -16,7 +16,6 @@ SearchBar = React.createClass({
   getInitialState() {
     return {
       keywords: '',
-      suggestionKeywordsStart: 0,
       selectedSuggestionIndex: -1,
       showSuggestions: true
     };
@@ -27,7 +26,7 @@ SearchBar = React.createClass({
       this.requestSuggestions(keywords);
       const newSearchParams = _.extend({}, this.props.searchParams);
       newSearchParams.keywords = keywords;
-      this.props.handleSearchParamsUpdate(newSearchParams);
+      this.updateSearchParams(newSearchParams);
     }, 500);
   },
 
@@ -46,18 +45,16 @@ SearchBar = React.createClass({
 
   requestSuggestions(keywords) {
     if (keywords) {
-      let sliceStart = this.state.suggestionKeywordsStart;
-      if (keywords.length < sliceStart) {
+      let sliceStart = keywords.lastIndexOf('"');
+      if (sliceStart < 0) {
         sliceStart = 0;
-        this.setState({
-          suggestionKeywordsStart: keywords.length
-        });
       }
-      this.props.requestSuggestions(keywords.slice(sliceStart));
+      let suggestionKeywords = keywords.slice(sliceStart);
+      suggestionKeywords = suggestionKeywords.replace(/"/g, '');
+      this.props.requestSuggestions(suggestionKeywords);
     } else {
       this.setState({
-        showSuggestions: false,
-        suggestionKeywordsStart: 0
+        showSuggestions: false
       });
     }
   },
@@ -67,9 +64,12 @@ SearchBar = React.createClass({
       event.preventDefault();
     }
     this.hideSuggestions();
-    this.props.handleSearchParamsUpdate(null);
+    this.updateSearchParams(null);
     this.refs.keywords.focus();
-    this.setState({ keywords: '' });
+    this.setState({
+      keywords: '',
+      selectedSuggestionIndex: -1
+    });
   },
 
   handleSubmit(event) {
@@ -95,24 +95,33 @@ SearchBar = React.createClass({
       if (this.state.selectedSuggestionIndex > -1) {
         // Selected suggestion (via enter key or mouse click)
         const newSearchParams = _.extend({}, this.props.searchParams);
-
         let suggestionKeywords =
           this.props.searchSuggestions[this.state.selectedSuggestionIndex];
         suggestionKeywords = suggestionKeywords.replace(/<(?:.|\n)*?>/gm, '');
         suggestionKeywords = `"${suggestionKeywords}" `;
-        newSearchParams.keywords =
-          newSearchParams.keywords.substring(0, this.state.suggestionKeywordsStart)
-          + suggestionKeywords;
 
-        this.props.handleSearchParamsUpdate(newSearchParams);
+        let lastQuotePosition = newSearchParams.keywords.lastIndexOf('"');
+        if (lastQuotePosition <= 0) {
+          newSearchParams.keywords = suggestionKeywords;
+        } else if (((newSearchParams.keywords.match(/"/g)
+            || []).length % 2) === 0) {
+          newSearchParams.keywords =
+            newSearchParams.keywords.substring(0, lastQuotePosition + 1)
+            + ' ' + suggestionKeywords;
+        } else {
+          newSearchParams.keywords =
+            newSearchParams.keywords.substring(0, lastQuotePosition)
+            + suggestionKeywords;
+        }
+
+        this.updateSearchParams(newSearchParams);
         this.props.requestSuggestions(null);
         let keywords;
         if (newSearchParams.keywords) {
           keywords = newSearchParams.keywords;
         }
         this.setState({
-          keywords,
-          suggestionKeywordsStart: keywords.length
+          keywords
         });
       }
       this.hideSuggestions();
@@ -136,6 +145,10 @@ SearchBar = React.createClass({
       showSuggestions: false,
       selectedSuggestionIndex: -1
     });
+  },
+
+  updateSearchParams(newSearchParams) {
+    this.props.handleSearchParamsUpdate(newSearchParams);
   },
 
   renderSearchSuggestions() {
