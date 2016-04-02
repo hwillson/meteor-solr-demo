@@ -55,7 +55,10 @@ SearchContainer = React.createClass({
       });
       App.utilities.searchLogger.logSearchToCloud(newSearchParams);
     } else {
-      this.setState({ searchParams: this.defaultSearchParams() });
+      this.setState({
+        searchParams: this.defaultSearchParams(),
+        searchSuggestions: []
+      });
     }
   },
 
