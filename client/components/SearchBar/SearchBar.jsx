@@ -22,10 +22,10 @@ SearchBar = React.createClass({
   },
 
   componentWillMount() {
-    this.setSearchKeywords = _.debounce((keywords) => {
-      this.requestSuggestions(keywords);
+    this.setSearchKeywords = _.debounce(() => {
+      this.requestSuggestions(this.state.keywords);
       const newSearchParams = _.extend({}, this.props.searchParams);
-      newSearchParams.keywords = keywords;
+      newSearchParams.keywords = this.state.keywords;
       this.updateSearchParams(newSearchParams);
     }, 500);
   },
@@ -36,8 +36,8 @@ SearchBar = React.createClass({
     }
     const keywords = event.target.value;
     if (keywords) {
-      this.setSearchKeywords(keywords);
       this.setState({ keywords });
+      this.setSearchKeywords();
     } else {
       this.resetSearch();
     }
