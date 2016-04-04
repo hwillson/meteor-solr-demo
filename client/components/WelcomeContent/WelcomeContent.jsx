@@ -8,7 +8,7 @@ WelcomeContent = React.createClass({
           Welcome to the Meteor Solr search demo!
         </p>
         <div className="welcome-get-started clearfix">
-          <div className="pull-left">
+          <div className="pull-left hidden-xs">
             <i className="fa fa-info-circle fa-2x"></i>
           </div>
           <div className="pull-left welcome-get-started-msg">
