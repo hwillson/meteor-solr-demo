@@ -14,9 +14,17 @@ SearchResult = React.createClass({
     );
   },
 
+  removeNonBreakingSpace(content) {
+    let cleanContent = '';
+    if (content) {
+      cleanContent = content.replace(/&nbsp;/g, ' ');
+    }
+    return cleanContent;
+  },
+
   renderContent() {
     return {
-      __html: this.props.result.content
+      __html: this.removeNonBreakingSpace(this.props.result.content)
     };
   },
 
@@ -28,7 +36,7 @@ SearchResult = React.createClass({
           <a href={resultUrl} target="_blank"
             onClick={this.logSearchResult}
           >
-            {this.props.result.title}
+            {this.removeNonBreakingSpace(this.props.result.title)}
           </a>
         </div>
         <div className="search-result-description">
