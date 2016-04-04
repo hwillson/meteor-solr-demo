@@ -180,7 +180,7 @@ SearchBar = React.createClass({
           >
             <i className="fa fa-times-circle fa-2x"></i>
           </a>
-          <ul className="search-suggestions list-group hidden-xs">
+          <ul className="search-suggestions list-group">
             {suggestions}
           </ul>
         </div>
