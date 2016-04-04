@@ -14,21 +14,37 @@ SearchResult = React.createClass({
     );
   },
 
+  /**
+   * Something is causing certain content blocks to have their whitespace
+   * converted to &nbsp;'s. This likely has to do with the encoding of some
+   * content when indexing via Solr. For now converting all space values to
+   * normal spaces fixes the issue.
+   */
+  cleanSpaces(content) {
+    let cleanContent = '';
+    if (content) {
+      cleanContent = content.replace(/(?! )\s/g, ' ');
+    }
+    return cleanContent;
+  },
+
   renderContent() {
     return {
-      __html: this.props.result.content
+      __html: this.cleanSpaces(this.props.result.content)
     };
   },
 
   render() {
+    let title = this.cleanSpaces(this.props.result.title);
     const resultUrl = encodeURI(this.props.result.returnUrl);
     return (
       <li className="search-result">
         <div className="search-result-title">
           <a href={resultUrl} target="_blank"
             onClick={this.logSearchResult}
+            className={this.props.result.doctype}
           >
-            {this.props.result.title}
+            {title}
           </a>
         </div>
         <div className="search-result-description">
