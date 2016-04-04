@@ -133,7 +133,7 @@ SearchBar = React.createClass({
   },
 
   highlightSuggestionByMouse(event) {
-    const suggestionIndex = event.target.getAttribute('data-suggestion-index');
+    let suggestionIndex = event.target.getAttribute('data-suggestion-index');
     this.setState({ selectedSuggestionIndex: parseInt(suggestionIndex, 10) });
   },
 
@@ -168,7 +168,8 @@ SearchBar = React.createClass({
             onMouseEnter={this.highlightSuggestionByMouse}
             onClick={this.selectSuggestion}
           >
-            <span dangerouslySetInnerHTML={{ __html: suggestion }} />
+            <span data-suggestion-index={suggestionIndex}
+              dangerouslySetInnerHTML={{ __html: suggestion }} />
           </li>
         );
         suggestionIndex++;
