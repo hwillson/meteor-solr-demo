@@ -18,12 +18,14 @@ SearchContainer = React.createClass({
         {
           currentPage: searchParams.currentPage,
           fields: searchParams.fields,
-          resultsPerPage: searchParams.resultsPerPage
+          resultsPerPage: searchParams.resultsPerPage,
+          sorting: App.models.searchSort.getSolrSort(searchParams.sorting),
         }
       );
     }
 
     const searchResults = PowerSearch.getData({
+      sort: App.models.searchSort.getMongoSort(searchParams.sorting),
       transform(matchText, regExp) {
         return matchText.replace(regExp, '<strong>$&</strong>');
       }
@@ -44,7 +46,8 @@ SearchContainer = React.createClass({
       currentPage: 1,
       resultsPerPage: 10,
       lastAddedFieldName: null,
-      suggestionKeywords: ''
+      suggestionKeywords: '',
+      sorting: App.models.searchSort.lookup.relevancy.id,
     };
   },
 
@@ -91,9 +94,19 @@ SearchContainer = React.createClass({
         if (this.data.searchResults.length) {
           mainContent = (
             <main>
-              <ResultsCount searchMetadata={this.data.searchMetadata}
-                searchParams={this.state.searchParams}
-              />
+              <div className="row">
+                <div className="col-md-9">
+                  <ResultsCount searchMetadata={this.data.searchMetadata}
+                    searchParams={this.state.searchParams}
+                  />
+                </div>
+                <div className="col-md-3">
+                  <Sorting
+                    searchParams={this.state.searchParams}
+                    handleSearchParamsUpdate={this.updateSearchParams}
+                  />
+                </div>
+              </div>
               <SearchResults searchResults={this.data.searchResults}
                 searchParams={this.state.searchParams}
                 searchMetadata={this.data.searchMetadata}
