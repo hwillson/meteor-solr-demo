@@ -8,7 +8,9 @@ Sorting = React.createClass({
   updateSearchParams(event) {
     const newSearchParams = _.extend({}, this.props.searchParams);
     newSearchParams.sorting = event.target.value;
+    newSearchParams.currentPage = 1;
     this.props.handleSearchParamsUpdate(newSearchParams);
+    window.scroll(0, 0);
   },
 
   renderSortOptions() {
