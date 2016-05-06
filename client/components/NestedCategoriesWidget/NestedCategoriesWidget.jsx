@@ -7,7 +7,9 @@ NestedCategoriesWidget = React.createClass({
     searchParams: React.PropTypes.object.isRequired,
     handleSearchParamsUpdate: React.PropTypes.func.isRequired,
     showHelp: React.PropTypes.bool,
-    selectedCategoryPath: React.PropTypes.string
+    selectedCategoryPath: React.PropTypes.string,
+    rootNodeLimit: React.PropTypes.number,
+    sortRootNodesDesc: React.PropTypes.bool,
   },
 
   getDefaultProps() {
@@ -78,14 +80,24 @@ NestedCategoriesWidget = React.createClass({
     let categoryContent;
     if (this.props.categories.children.length > 0) {
       const categories = [];
-      this.props.categories.children.map((child) => {
+      let children = this.props.categories.children;
+      if (this.props.sortRootNodesDesc) {
+        children = _.sortBy(children, 'name').reverse();
+      }
+      let cutoff = children.length;
+      if (this.props.rootNodeLimit
+          && (this.props.rootNodeLimit <= children.length)) {
+        cutoff = this.props.rootNodeLimit;
+      }
+      for (let i = 0; i < cutoff; i++) {
+        const child = children[i];
         categories.push(
           <NestedCategories key={child.name} categories={child}
             onCategorySelect={this.handleCategorySelect}
             selectedCategoryPath={this.props.selectedCategoryPath}
           />
         );
-      });
+      }
       categoryContent = (
         <ul className="category-tree">
           {categories}

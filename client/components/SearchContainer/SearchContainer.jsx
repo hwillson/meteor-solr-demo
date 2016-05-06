@@ -158,6 +158,7 @@ SearchContainer = React.createClass({
               selectedCategoryPath={this.state.searchParams.fields.date_ss}
               searchParams={this.state.searchParams}
               handleSearchParamsUpdate={this.updateSearchParams}
+              rootNodeLimit={10} sortRootNodesDesc
             />
             <SearchFacet key="ml_entity_location" name="Location"
               field="ml_entity_location"
