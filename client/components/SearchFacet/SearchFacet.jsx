@@ -51,10 +51,14 @@ SearchFacet = React.createClass({
       const selectedFacet = this.props.searchParams.fields[this.props.field];
       this.props.values.forEach((value) => {
         if (!selectedFacet || (selectedFacet === value.name)) {
+          let count = '';
+          if (value.count) {
+            count = `(${value.count})`;
+          }
           facetValues.push(
             <li key={value.name}>
               {this.renderFacetLink(value.name)}
-              &nbsp;({value.count})
+              &nbsp;{count}
             </li>
           );
         }
