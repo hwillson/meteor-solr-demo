@@ -36,6 +36,9 @@ SearchBar = React.createClass({
     }
     const keywords = event.target.value;
     if (keywords) {
+      if (keywords.indexOf(this.state.keywords) === -1) {
+        this.resetSearch();
+      }
       this.setState({ keywords });
       this.setSearchKeywords();
     } else {
