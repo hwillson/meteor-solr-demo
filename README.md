@@ -26,10 +26,32 @@ This demo is built using Meteor for all client/server code, with Solr handling t
 
 **Solr Setup / Config**
 
-Here are the sample Solr config and schema files used by this demo:
+1) Make sure you first have Java 8+ installed, then download and install a [recent version of Solr](http://lucene.apache.org/solr/mirrors-solr-latest-redir.html) (tested with version 6.1.0). The steps assume you've installed Solr in something like `/opt/solr-6.1.0`, and have added `/opt/solr-6.1.0/bin` to your `PATH`.
 
-- [solrconfig.xml](https://raw.githubusercontent.com/hwillson/meteor-solr-demo/master/private/solr/config/solrconfig.xml)
-- [schema.xml](https://raw.githubusercontent.com/hwillson/meteor-solr-demo/master/private/solr/config/schema.xml)
+2) Start solr: `solr start`
+
+3) Create a new core: `solr create -c testcore`
+
+4) Backup the new core's `solrconfig.xml`: 
+
+```
+cd /opt/solr-6.1.0/server/solr/testcore/conf
+cp solrconfig.xml solrconfig.xml.bak
+```
+
+5) Copy the [`solrconfig.xml`](https://raw.githubusercontent.com/hwillson/meteor-solr-demo/master/private/solr/config/solrconfig.xml) and [`schema.xml`](https://raw.githubusercontent.com/hwillson/meteor-solr-demo/master/private/solr/config/schema.xml) sample config files from this repo into your new Solr core's `conf` directory:
+
+```
+cp meteor-solr-demo/private/solr/config/* /opt/solr-6.1.0/server/solr/testcore/conf
+```
+
+6) Restart solr: `solr restart`
+
+7) Index the test docs: `post -c testcore /vagrant/solr/data/*.xml`
+
+8) Verify the search is working: [http://localhost:8983/solr/testcore/select?indent=on&q=*:*&wt=json](http://localhost:8983/solr/testcore/select?indent=on&q=*:*&wt=json)
+
+9) Manually trigger a suggester rebuild: [http://localhost:8983/solr/testcore/suggesthandler2?suggest.q=Obj&suggest.build=true](http://localhost:8983/solr/testcore/suggesthandler2?suggest.q=Obj&suggest.build=true)
 
 **Running the Search Application**
 
