@@ -68,7 +68,7 @@
     },
     "analyticsControl": {
       "loggingEnabled": true,
-      "container": "cloud"
+      "containers": [ "cloud", "database" ]
     },
     "analyticsSettings": {
       "Google Analytics": {

@@ -79,19 +79,20 @@ The following analytics are captured for each user:
 - Total number of search results from this search
 - Clicked on search result URLs
 - Page clicked on search result was found
+- Timestamp
 
-Search analytics can be captured in one of two ways:
+Search analytics can be captured in a couple of ways:
 1. In a Mongo database.
 2. In a supported 3rd party cloud based analytics system.
 
-Define the analytics data capture approach in the `deploy/settings.json` file.
+Define the analytics data capture approach in the `deploy/settings.json` file. You can define one or both.
 
 Mongo DB:
 
     {
       "public": {
         "analyticsControl": {
-          "container": "database"
+          "containers": [ "database" ]
         }
       }
     }
@@ -101,7 +102,7 @@ Cloud analytics system:
     {
       "public": {
         "analyticsControl": {
-          "container": "cloud"
+          "containers": [ "cloud" ]
         }
       }
     }
