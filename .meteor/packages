@@ -45,3 +45,4 @@ http
 reactive-var
 aldeed:collection2
 okgrow:analytics
+#percolate:synced-cron

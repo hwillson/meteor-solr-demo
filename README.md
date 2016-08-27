@@ -128,3 +128,25 @@ Cloud analytics settings are configured in the `deploy/settings.json` file:
         }
       }
     }
+
+### Analytics Helpers
+
+#### 1. Exporting Summarized Analytics
+
+Captured search analytics (if using the database analytics method) can be summarized and sent to an external system/API, on a scheduled basis. This can be helpful if you want to track user search details in a 3rd party user management / reporting system. Enabling this feature, as well as configuring the receiving endpoint details, can be adjusted in `deploy/settings.json`. The analytics export job is disabled by default.
+
+```
+{
+  "private": {
+    "analytics": {
+      "jobs": {
+        "export": {
+          "enabled": true,
+          "schedule": "every 1 hour", --> uses [Later.js](http://bunkat.github.io/later/) formatting
+          "endpointUrl": "https://someurl.xyz/analytics-capture"
+      }
+    }
+  }
+}
+```
+

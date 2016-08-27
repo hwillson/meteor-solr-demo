@@ -75,5 +75,16 @@
         "trackingId": "UA-1885741-2"
       }
     }
+  },
+  "private": {
+    "analytics": {
+      "jobs": {
+        "export": {
+          "enabled": true,
+          "schedule": "every 1 hour",
+          "endpointUrl": "https://someurl.xyz/analytics-capture"
+        }
+      }
+    }
   }
 }
