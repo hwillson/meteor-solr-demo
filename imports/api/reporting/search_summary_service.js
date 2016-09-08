@@ -2,19 +2,19 @@ import SearchSummary from './search_summary';
 import LoggedSearches from '../logged_searches/collection';
 
 const SearchSummaryService = (() => {
-  const myPublic = {};
-  const myPrivate = {};
+  const publicApi = {};
+  const privateApi = {};
 
   // Send a search summary to the specified external reporting system for each
   // user that has had logged searches made within specified timeframe.
-  myPublic.sendSearchSummariesToReportingSystem = (startTime, stopTime) => {
+  publicApi.sendSearchSummariesToReportingSystem = (startTime, stopTime) => {
     if (startTime && stopTime) {
-      const usernames = myPrivate.getLoggedSearchUsernames(startTime, stopTime);
+      const usernames = privateApi.getLoggedSearchUsernames(startTime, stopTime);
       usernames.forEach((username) => {
         SearchSummary.init(username, startTime, stopTime);
         const summary = SearchSummary.generateSummaryForUser();
         if (summary) {
-          myPrivate.postSummaryToReportingSystem(summary);
+          privateApi.postSummaryToReportingSystem(summary);
         }
       });
     }
@@ -22,7 +22,7 @@ const SearchSummaryService = (() => {
 
   // Load all unique usernames associated with searches made within the
   // specified timeframe.
-  myPrivate.getLoggedSearchUsernames = (startTime, stopTime) => {
+  privateApi.getLoggedSearchUsernames = (startTime, stopTime) => {
     const usernames = [];
     LoggedSearches.find({
       timestamp: {
@@ -39,7 +39,7 @@ const SearchSummaryService = (() => {
 
   // Post a user's search summary to the external reporting system web service
   // endpoint.
-  myPrivate.postSummaryToReportingSystem = (summary) => {
+  privateApi.postSummaryToReportingSystem = (summary) => {
     if (summary) {
       console.log('Sent summary!', summary);
       // TODO - disabling until the test endpoint is ready.
@@ -48,7 +48,7 @@ const SearchSummaryService = (() => {
     }
   };
 
-  return myPublic;
+  return publicApi;
 })();
 
 export default SearchSummaryService;

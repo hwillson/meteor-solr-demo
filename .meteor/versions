@@ -65,6 +65,7 @@ npm-mongo@1.5.48
 observe-sequence@1.0.12
 okgrow:analytics@2.0.0
 ordered-dict@1.0.8
+percolate:synced-cron@1.3.2
 pfafman:font-awesome-4@4.6.1
 promise@0.8.4
 raix:eventemitter@0.1.3

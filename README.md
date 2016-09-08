@@ -140,13 +140,42 @@ Captured search analytics (if using the database analytics method) can be summar
   "private": {
     "analytics": {
       "jobs": {
+        ...
         "export": {
           "enabled": true,
-          "schedule": "every 1 hour", --> uses [Later.js](http://bunkat.github.io/later/) formatting
+          // Uses [Later.js](http://bunkat.github.io/later/) formatting 
+          "schedule": "every 1 hour", 
           "endpointUrl": "https://someurl.xyz/analytics-capture"
+        }
+        ...
       }
     }
   }
 }
 ```
 
+#### 2. Routinely Clearing Database Stored Analytics
+
+If you're using the database method of capturing analytics and want to routinely clear out old analytics, enable and adjust the analytics removal cron entry in `deploy/settings.json` (disabled by default):
+
+```
+{
+  "private": {
+    "analytics": {
+      "jobs": {
+        ...
+        "cleanup": {
+          "enabled": true,
+          // Uses [Later.js](http://bunkat.github.io/later/) formatting
+          "schedule": "on the first day of the month",
+          // Retain analytics captured within this number of months (so in this example 
+          // analytics will be removed on the first day of each month, that are older than 
+          // one month ago)
+          "monthRetainCount": "1"
+        }
+        ...
+      }
+    }
+  }
+}
+```

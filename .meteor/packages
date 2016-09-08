@@ -35,7 +35,7 @@ aldeed:simple-schema
 http@1.2.9
 reactive-var@1.0.10
 aldeed:collection2
-#percolate:synced-cron
+percolate:synced-cron
 standard-minifier-css
 standard-minifier-js
 shell-server

@@ -80,9 +80,14 @@
     "analytics": {
       "jobs": {
         "export": {
-          "enabled": true,
+          "enabled": false,
           "schedule": "every 1 hour",
           "endpointUrl": "https://someurl.xyz/analytics-capture"
+        },
+        "cleanup": {
+          "enabled": false,
+          "schedule": "on the first day of the month",
+          "monthRetainCount": "1"
         }
       }
     }
