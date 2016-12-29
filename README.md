@@ -1,7 +1,5 @@
 # Meteor + Solr Search Application Demo
 
-[![Stories in Ready](https://badge.waffle.io/hwillson/meteor-solr-demo.png?label=ready&title=Ready)](https://waffle.io/hwillson/meteor-solr-demo)
-
 This project demonstrates one approach for using [Solr](http://lucene.apache.org/solr/) with [Meteor](https://meteor.com). It provides the following functionality:
 
 - Meteor based single page search application
@@ -32,7 +30,7 @@ This demo is built using Meteor for all client/server code, with Solr handling t
 
 3) Create a new core: `solr create -c testcore`
 
-4) Backup the new core's `solrconfig.xml`: 
+4) Backup the new core's `solrconfig.xml`:
 
 ```
 cd /opt/solr-6.1.0/server/solr/testcore/conf
@@ -143,8 +141,8 @@ Captured search analytics (if using the database analytics method) can be summar
         ...
         "export": {
           "enabled": true,
-          // Uses [Later.js](http://bunkat.github.io/later/) formatting 
-          "schedule": "every 1 hour", 
+          // Uses [Later.js](http://bunkat.github.io/later/) formatting
+          "schedule": "every 1 hour",
           "endpointUrl": "https://someurl.xyz/analytics-capture"
         }
         ...
@@ -168,8 +166,8 @@ If you're using the database method of capturing analytics and want to routinely
           "enabled": true,
           // Uses [Later.js](http://bunkat.github.io/later/) formatting
           "schedule": "on the first day of the month",
-          // Retain analytics captured within this number of months (so in this example 
-          // analytics will be removed on the first day of each month, that are older than 
+          // Retain analytics captured within this number of months (so in this example
+          // analytics will be removed on the first day of each month, that are older than
           // one month ago)
           "monthRetainCount": "1"
         }
