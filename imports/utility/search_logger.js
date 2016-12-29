@@ -1,5 +1,6 @@
 import { analytics } from 'meteor/okgrow:analytics';
 import { Meteor } from 'meteor/meteor';
+
 import LoggedSearches from '../api/logged_searches/collection';
 import LoggedSearchResults from '../api/logged_search_results/collection';
 
