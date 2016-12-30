@@ -10,25 +10,17 @@ mongo@1.1.14                   # The database Meteor supports right now
 session@1.1.7                 # Client-side reactive dictionary for your app
 jquery@1.11.10                  # Helpful client-side library
 tracker@1.1.1                 # Meteor's client-side reactive programming library
-
 es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.6.1              # Enable ECMAScript2015+ syntax in app code
 
-kadira:flow-router
 twbs:bootstrap
 mquandalle:stylus
-
-#kadira:react-layout
-
 meteorhacks:search-source
 check@1.2.4
 pfafman:font-awesome-4
 ejson@1.0.13
-useraccounts:flow-routing
-#gwendall:blaze-to-react
 useraccounts:bootstrap
 useraccounts:core
-#kadira:blaze-layout
 accounts-password@1.3.3
 mdg:validated-method
 aldeed:simple-schema
